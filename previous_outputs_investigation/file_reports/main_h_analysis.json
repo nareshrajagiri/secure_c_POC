@@ -1,0 +1,22 @@
+{
+    "file": "main.h",
+    "path": "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\main.h",
+    "retrieved_rules": [
+        "CON33-C",
+        "ERR33-C",
+        "DCL40-C",
+        "MSC40-C",
+        "MSC38-C"
+    ],
+    "context": {
+        "file_type": "header",
+        "declared_functions": [
+            "HAL_TIM_MspPostInit",
+            "Error_Handler"
+        ],
+        "includes": [
+            "stm32f4xx_hal.h"
+        ]
+    },
+    "violations": []
+}

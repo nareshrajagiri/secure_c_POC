@@ -1,0 +1,364 @@
+{
+    "files": [
+        {
+            "file": "command_handler.c",
+            "path": "..\\HVAC_Project\\Core\\Src\\command_handler.c",
+            "retrieved_rules": [
+                "ERR33-C",
+                "SIG31-C",
+                "STR37-C",
+                "CON33-C",
+                "SIG30-C"
+            ],
+            "context": {
+                "owned_functions": [
+                    "CommandHandler_PollCommand"
+                ],
+                "called_functions": [],
+                "peripherals": [],
+                "shared_states": [
+                    "huart2"
+                ],
+                "protected_regions": []
+            },
+            "violations": []
+        },
+        {
+            "file": "main.c",
+            "path": "..\\HVAC_Project\\Core\\Src\\main.c",
+            "retrieved_rules": [
+                "CON33-C",
+                "MSC40-C",
+                "ERR33-C",
+                "DCL40-C",
+                "DCL31-C"
+            ],
+            "context": {
+                "owned_functions": [
+                    "main",
+                    "SystemClock_Config",
+                    "MX_GPIO_Init",
+                    "MX_ADC1_Init",
+                    "MX_USART2_UART_Init",
+                    "MX_TIM3_Init",
+                    "Error_Handler"
+                ],
+                "called_functions": [
+                    "MX_USART2_UART_Init",
+                    "PositionSensing_GetPosition",
+                    "MotorController_IsMoving",
+                    "MX_GPIO_Init",
+                    "PositionSensing_Init",
+                    "StatusIndicator_Update",
+                    "CommandHandler_PollCommand",
+                    "MotorController_Update",
+                    "MX_TIM3_Init",
+                    "Error_Handler",
+                    "MotorController_GetTarget",
+                    "MotorController_MoveTo",
+                    "PositionSensing_Update",
+                    "MotorController_Init",
+                    "StatusIndicator_Init",
+                    "SystemClock_Config",
+                    "MX_ADC1_Init"
+                ],
+                "peripherals": [
+                    {
+                        "name": "huart2",
+                        "type": "USART"
+                    },
+                    {
+                        "name": "htim2",
+                        "type": "TIM"
+                    }
+                ],
+                "shared_states": [
+                    "huart2",
+                    "hadc1",
+                    "htim3",
+                    "GPIO_InitStruct"
+                ],
+                "protected_regions": [
+                    "USER CODE BEGIN MX_GPIO_Init_1",
+                    "USER CODE BEGIN MX_GPIO_Init_2",
+                    "USER CODE BEGIN ADC1_Init 0",
+                    "USER CODE BEGIN ADC1_Init 1",
+                    "USER CODE BEGIN ADC1_Init 2",
+                    "USER CODE BEGIN USART2_Init 0",
+                    "USER CODE BEGIN USART2_Init 1",
+                    "USER CODE BEGIN USART2_Init 2",
+                    "USER CODE BEGIN TIM3_Init 0",
+                    "USER CODE BEGIN TIM3_Init 1",
+                    "USER CODE BEGIN TIM3_Init 2",
+                    "USER CODE BEGIN Error_Handler_Debug"
+                ]
+            },
+            "violations": []
+        },
+        {
+            "file": "motor_controller.c",
+            "path": "..\\HVAC_Project\\Core\\Src\\motor_controller.c",
+            "retrieved_rules": [
+                "CON33-C",
+                "DCL40-C",
+                "MSC40-C",
+                "MSC37-C",
+                "ERR33-C"
+            ],
+            "context": {
+                "owned_functions": [
+                    "MotorController_Init",
+                    "MotorController_MoveTo",
+                    "MotorController_Update",
+                    "MotorController_Abort",
+                    "MotorController_GetState",
+                    "MotorController_IsMoving",
+                    "MotorController_GetTarget"
+                ],
+                "called_functions": [
+                    "PositionSensing_Update",
+                    "MotorController_Abort",
+                    "PositionSensing_GetPosition",
+                    "PositionSensing_IsAtTarget"
+                ],
+                "peripherals": [
+                    {
+                        "name": "htim3",
+                        "type": "TIM"
+                    }
+                ],
+                "shared_states": [
+                    "htim3",
+                    "GPIO_InitStruct"
+                ],
+                "protected_regions": []
+            },
+            "violations": [
+                {
+                    "rule_id": "CON33-C",
+                    "severity": "High",
+                    "confidence": "High",
+                    "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+                    "line": 44,
+                    "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+                    "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+                },
+                {
+                    "rule_id": "CON33-C",
+                    "severity": "High",
+                    "confidence": "High",
+                    "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+                    "line": 59,
+                    "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+                    "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+                },
+                {
+                    "rule_id": "CON33-C",
+                    "severity": "High",
+                    "confidence": "High",
+                    "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+                    "line": 78,
+                    "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+                    "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+                },
+                {
+                    "rule_id": "CON33-C",
+                    "severity": "High",
+                    "confidence": "High",
+                    "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+                    "line": 95,
+                    "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_SET);",
+                    "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+                },
+                {
+                    "rule_id": "CON33-C",
+                    "severity": "High",
+                    "confidence": "High",
+                    "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+                    "line": 112,
+                    "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+                    "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+                }
+            ]
+        },
+        {
+            "file": "position_sensing.c",
+            "path": "..\\HVAC_Project\\Core\\Src\\position_sensing.c",
+            "retrieved_rules": [
+                "ARR38-C",
+                "FLP36-C",
+                "FLP34-C",
+                "FIO44-C",
+                "ARR30-C"
+            ],
+            "context": {
+                "owned_functions": [
+                    "PositionSensing_Init",
+                    "Position_GetFromADC",
+                    "PositionSensing_IsAtTarget",
+                    "PositionSensing_Update",
+                    "PositionSensing_GetPosition",
+                    "PositionSensing_IsValid"
+                ],
+                "called_functions": [
+                    "Position_GetFromADC"
+                ],
+                "peripherals": [
+                    {
+                        "name": "hadc1",
+                        "type": "ADC"
+                    }
+                ],
+                "shared_states": [
+                    "hadc1"
+                ],
+                "protected_regions": []
+            },
+            "violations": []
+        },
+        {
+            "file": "status_indicator.c",
+            "path": "..\\HVAC_Project\\Core\\Src\\status_indicator.c",
+            "retrieved_rules": [
+                "FIO44-C",
+                "EXP45-C",
+                "ERR33-C",
+                "MSC32-C",
+                "DCL40-C"
+            ],
+            "context": {
+                "owned_functions": [
+                    "StatusIndicator_Init",
+                    "StatusIndicator_Update",
+                    "StatusIndicator_SetPowerLED"
+                ],
+                "called_functions": [],
+                "peripherals": [],
+                "shared_states": [
+                    "GPIO_InitStruct"
+                ],
+                "protected_regions": []
+            },
+            "violations": []
+        },
+        {
+            "file": "command_handler.h",
+            "path": "..\\HVAC_Project\\Core\\Inc\\command_handler.h",
+            "retrieved_rules": [
+                "STR37-C",
+                "SIG31-C",
+                "SIG30-C",
+                "INT36-C",
+                "SIG34-C"
+            ],
+            "context": {
+                "file_type": "header",
+                "declared_functions": [
+                    "CommandHandler_PollCommand"
+                ],
+                "includes": [
+                    "stdint.h",
+                    "stddef.h"
+                ]
+            },
+            "violations": []
+        },
+        {
+            "file": "main.h",
+            "path": "..\\HVAC_Project\\Core\\Inc\\main.h",
+            "retrieved_rules": [
+                "CON33-C",
+                "ERR33-C",
+                "DCL40-C",
+                "MSC40-C",
+                "MSC38-C"
+            ],
+            "context": {
+                "file_type": "header",
+                "declared_functions": [
+                    "HAL_TIM_MspPostInit",
+                    "Error_Handler"
+                ],
+                "includes": [
+                    "stm32f4xx_hal.h"
+                ]
+            },
+            "violations": []
+        },
+        {
+            "file": "motor_controller.h",
+            "path": "..\\HVAC_Project\\Core\\Inc\\motor_controller.h",
+            "retrieved_rules": [
+                "DCL31-C",
+                "DCL40-C",
+                "MSC40-C",
+                "MSC38-C",
+                "MSC37-C"
+            ],
+            "context": {
+                "file_type": "header",
+                "declared_functions": [
+                    "MotorController_Init",
+                    "MotorController_MoveTo",
+                    "MotorController_Update",
+                    "MotorController_Abort",
+                    "MotorController_IsMoving",
+                    "MotorController_GetTarget",
+                    "MotorController_GetState"
+                ],
+                "includes": [
+                    "stdint.h"
+                ]
+            },
+            "violations": []
+        },
+        {
+            "file": "position_sensing.h",
+            "path": "..\\HVAC_Project\\Core\\Inc\\position_sensing.h",
+            "retrieved_rules": [
+                "FLP32-C",
+                "FLP34-C",
+                "FLP36-C",
+                "ARR38-C",
+                "FLP37-C"
+            ],
+            "context": {
+                "file_type": "header",
+                "declared_functions": [
+                    "PositionSensing_Init",
+                    "PositionSensing_Update",
+                    "PositionSensing_GetPosition",
+                    "PositionSensing_IsValid",
+                    "PositionSensing_IsAtTarget"
+                ],
+                "includes": [
+                    "stdint.h"
+                ]
+            },
+            "violations": []
+        },
+        {
+            "file": "status_indicator.h",
+            "path": "..\\HVAC_Project\\Core\\Inc\\status_indicator.h",
+            "retrieved_rules": [
+                "DCL31-C",
+                "EXP45-C",
+                "ERR33-C",
+                "DCL36-C",
+                "DCL40-C"
+            ],
+            "context": {
+                "file_type": "header",
+                "declared_functions": [
+                    "STATUS_INDICATOR_NUM",
+                    "StatusIndicator_Update",
+                    "StatusIndicator_SetPowerLED"
+                ],
+                "includes": [
+                    "stdint.h"
+                ]
+            },
+            "violations": []
+        }
+    ]
+}

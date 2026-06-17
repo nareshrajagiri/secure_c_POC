@@ -1,0 +1,37 @@
+[
+    {
+        "metadata": {
+            "rule_id": "ARR38-C",
+            "category": "ARR"
+        },
+        "content": "\nRule ID: ARR38-C\n\nCategory: ARR\n\nDescription:\nEnsure that pointers returned by library functions are valid and do not point outside the allocated object or become invalid due to overflow, underflow, or arithmetic on pointers, to prevent undefined behavior and potential security vulnerabilities.\n\nFix:\nValidate pointers returned by library functions before use; check that they fall within the bounds of the allocated memory region and avoid arithmetic that produces pointers outside valid ranges.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "FLP36-C",
+            "category": "FLP"
+        },
+        "content": "\nRule ID: FLP36-C\n\nCategory: FLP\n\nDescription:\nPreserve the precision of integral values when converting to floating-point types by ensuring the floating-point type has sufficient precision to represent the integral value exactly or by using an intermediate type or method to avoid precision loss.\n\nFix:\nUse a floating-point type with enough precision (e.g., double instead of float) or cast integral values to a wider type before conversion to floating-point to avoid precision loss in embedded C STM32 projects.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "FLP34-C",
+            "category": "FLP"
+        },
+        "content": "\nRule ID: FLP34-C\n\nCategory: FLP\n\nDescription:\nEnsure that floating-point conversions are within the range of the target type to prevent overflow, underflow, or undefined behavior. Verify that the source value is within the representable limits of the destination float or double type before conversion.\n\nFix:\nBefore casting, check if the floating-point value is within the target type's min and max range using predefined constants or limits, and handle out-of-range cases appropriately to avoid undefined behavior.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "FIO44-C",
+            "category": "FIO"
+        },
+        "content": "\nRule ID: FIO44-C\n\nCategory: FIO\n\nDescription:\nOnly use values for fsetpos() that have been obtained from a prior call to fgetpos() on the same file stream, ensuring that the position indicator is valid and consistent.\n\nFix:\nStore the position using fpos_t pos; fgetpos(file, &pos); then restore it with fsetpos(file, &pos); avoid using arbitrary or manually created position values.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "ARR30-C",
+            "category": "ARR"
+        },
+        "content": "\nRule ID: ARR30-C\n\nCategory: ARR\n\nDescription:\nDo not form or use pointers or array subscripts that point outside the bounds of the intended object. Accessing memory outside array bounds causes undefined behavior and may lead to system instability or security vulnerabilities.\n\nFix:\nEnsure all pointer arithmetic and array indices remain within valid bounds by validating indices against array sizes before access.\n"
+    }
+]

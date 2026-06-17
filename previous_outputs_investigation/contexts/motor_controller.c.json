@@ -1,0 +1,28 @@
+{
+    "owned_functions": [
+        "MotorController_Init",
+        "MotorController_MoveTo",
+        "MotorController_Update",
+        "MotorController_Abort",
+        "MotorController_GetState",
+        "MotorController_IsMoving",
+        "MotorController_GetTarget"
+    ],
+    "called_functions": [
+        "PositionSensing_Update",
+        "MotorController_Abort",
+        "PositionSensing_GetPosition",
+        "PositionSensing_IsAtTarget"
+    ],
+    "peripherals": [
+        {
+            "name": "htim3",
+            "type": "TIM"
+        }
+    ],
+    "shared_states": [
+        "htim3",
+        "GPIO_InitStruct"
+    ],
+    "protected_regions": []
+}

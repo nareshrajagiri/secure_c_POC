@@ -1,0 +1,23 @@
+{
+    "file": "command_handler.c",
+    "path": "..\\HVAC_Project\\Core\\Src\\command_handler.c",
+    "retrieved_rules": [
+        "ERR33-C",
+        "SIG31-C",
+        "STR37-C",
+        "CON33-C",
+        "SIG30-C"
+    ],
+    "context": {
+        "owned_functions": [
+            "CommandHandler_PollCommand"
+        ],
+        "called_functions": [],
+        "peripherals": [],
+        "shared_states": [
+            "huart2"
+        ],
+        "protected_regions": []
+    },
+    "violations": []
+}

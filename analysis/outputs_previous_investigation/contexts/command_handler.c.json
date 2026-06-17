@@ -1,0 +1,11 @@
+{
+    "owned_functions": [
+        "CommandHandler_PollCommand"
+    ],
+    "called_functions": [],
+    "peripherals": [],
+    "shared_states": [
+        "huart2"
+    ],
+    "protected_regions": []
+}

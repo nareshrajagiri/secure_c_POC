@@ -1,0 +1,107 @@
+[
+    {
+        "metadata": {
+            "rule_id": "CON33-C",
+            "category": "CON"
+        },
+        "content": "\nRule ID: CON33-C\n\nCategory: CON\n\nDescription:\nAvoid race conditions when using library functions by ensuring that shared resources are accessed in a thread-safe manner. Library functions are not always reentrant or thread-safe, so protect calls to such functions with appropriate synchronization mechanisms to prevent concurrent access that can lead to inconsistent or corrupted data.\n\nFix:\nUse mutexes or disable interrupts around library function calls that access shared resources to ensure exclusive access, especially in embedded or RTOS-based STM32 applications.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC40-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC40-C\n\nCategory: MSC\n\nDescription:\nDo not violate constraints imposed by the language or the implementation, such as accessing memory out of bounds, using uninitialized variables, or exceeding hardware limitations. Such violations can lead to undefined behavior, system crashes, or security vulnerabilities.\n\nFix:\nValidate all inputs, initialize variables before use, and enforce memory boundaries using static or dynamic checks appropriate for embedded environments.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "ERR33-C",
+            "category": "ERR"
+        },
+        "content": "\nRule ID: ERR33-C\n\nCategory: ERR\n\nDescription:\nDetect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.\n\nFix:\nCheck return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "DCL40-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL40-C\n\nCategory: DCL\n\nDescription:\nDo not create incompatible declarations of the same function or object. Incompatible declarations can lead to undefined behavior due to mismatched types, calling conventions, or storage durations. Ensure all declarations and definitions consistently use the same type, qualifier, and linkage.\n\nFix:\nEnsure all declarations and definitions of a function or object use exactly the same type, qualifiers, and linkage specifications. In STM32 projects, declare functions in header files with matching prototypes and include these headers consistently across source files.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "DCL31-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL31-C\n\nCategory: DCL\n\nDescription:\nAll identifiers must be declared before their first use to ensure proper type checking, avoid implicit declarations, and prevent undefined behavior.\n\nFix:\nDeclare all variables and functions before their first usage, typically at the beginning of a block or in appropriate header files.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC32-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC32-C\n\nCategory: MSC\n\nDescription:\nProperly seed pseudorandom number generators (PRNGs) using sources of sufficient entropy before generating random values to ensure unpredictable sequences and prevent security vulnerabilities arising from predictable pseudorandom numbers.\n\nFix:\nUse a high-entropy seed such as a hardware RNG, unique device ID, or timer-based value to initialize the PRNG before generating random numbers, e.g., srand((unsigned int)HAL_GetTick()); for STM32.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC38-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC38-C\n\nCategory: MSC\n\nDescription:\nDo not treat a predefined identifier as an object if it might only be defined as a macro or a compilerIntrinsic, to avoid undefined behavior or conflicts.\n\nFix:\nAvoid declaring variables or objects with names matching predefined identifiers; use distinct names or enclosed preprocessing directives to differentiate.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "ARR30-C",
+            "category": "ARR"
+        },
+        "content": "\nRule ID: ARR30-C\n\nCategory: ARR\n\nDescription:\nDo not form or use pointers or array subscripts that point outside the bounds of the intended object. Accessing memory outside array bounds causes undefined behavior and may lead to system instability or security vulnerabilities.\n\nFix:\nEnsure all pointer arithmetic and array indices remain within valid bounds by validating indices against array sizes before access.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "SIG31-C",
+            "category": "SIG"
+        },
+        "content": "\nRule ID: SIG31-C\n\nCategory: SIG\n\nDescription:\nDo not access or modify shared objects in signal handlers, as signal handlers can interrupt the main program flow at unpredictable points, leading to data races or inconsistent state if shared objects are accessed without synchronization.\n\nFix:\nUse atomic operations or set a flag of type volatile sig_atomic_t in the signal handler and handle the shared object outside the handler to ensure safe access.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "EXP33-C",
+            "category": "EXP"
+        },
+        "content": "\nRule ID: EXP33-C\n\nCategory: EXP\n\nDescription:\nDo not read uninitialized memory, as reading uninitialized variables leads to undefined behavior and may result in unpredictable program operation or security vulnerabilities.\n\nFix:\nAlways initialize variables before use, preferably by zeroing memory or assigning a known initial value immediately after declaration.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC30-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC30-C\n\nCategory: MSC\n\nDescription:\nDo not use the rand() function for generating pseudorandom numbers as it often produces low-quality randomness, has implementation-defined behavior, and may be unsuitable for security-sensitive or high-quality random number requirements.\n\nFix:\nUse hardware random number generators (e.g., STM32 RNG peripheral) or implement a well-tested cryptographic PRNG instead of rand() for better randomness and predictability.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "CON32-C",
+            "category": "CON"
+        },
+        "content": "\nRule ID: CON32-C\n\nCategory: CON\n\nDescription:\nPrevent data races when accessing bit-fields from multiple threads. Bit-fields in C are not guaranteed to be accessed atomically, which can result in unpredictable behavior in concurrent environments. To ensure thread safety, concurrent access to bit-fields must be properly synchronized or avoided.\n\nFix:\nProtect all accesses to shared bit-fields with mutexes or disable interrupts during access to ensure atomicity.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "PRE32-C",
+            "category": "PRE"
+        },
+        "content": "\nRule ID: PRE32-C\n\nCategory: PRE\n\nDescription:\nDo not use preprocessor directives (such as #if, #ifdef, #ifndef) within the arguments of function-like macros, as this can lead to unexpected behavior and code that is difficult to debug and maintain.\n\nFix:\nPerform conditional checks outside the macro invocation and pass only fully resolved arguments to the function-like macro.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "ARR38-C",
+            "category": "ARR"
+        },
+        "content": "\nRule ID: ARR38-C\n\nCategory: ARR\n\nDescription:\nEnsure that pointers returned by library functions are valid and do not point outside the allocated object or become invalid due to overflow, underflow, or arithmetic on pointers, to prevent undefined behavior and potential security vulnerabilities.\n\nFix:\nValidate pointers returned by library functions before use; check that they fall within the bounds of the allocated memory region and avoid arithmetic that produces pointers outside valid ranges.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "CON37-C",
+            "category": "CON"
+        },
+        "content": "\nRule ID: CON37-C\n\nCategory: CON\n\nDescription:\nDo not call signal() in a multithreaded program because signal handlers and signal() calls are not thread-safe and may lead to undefined behavior. Use timer-based interrupts or dedicated thread-safe event handling mechanisms instead.\n\nFix:\nAvoid using signal() in multithreaded code; implement hardware interrupts or RTOS-native event flags or message queues to handle asynchronous events safely.\n"
+    }
+]

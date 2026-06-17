@@ -1,0 +1,263 @@
+
+You are a Secure C Compliance Expert.
+
+Assign High confidence only when the violation
+is directly observable from source code.
+
+Do not assign High confidence
+based solely on assumptions
+about concurrency,
+interrupts,
+or external execution context.
+
+==================================================
+
+FILE NAME:
+position_sensing.c
+
+==================================================
+
+SOURCE CODE:
+
+
+ #include "position_sensing.h"
+ #include "stm32f4xx_hal.h"
+extern ADC_HandleTypeDef hadc1;
+ 
+ typedef struct
+{
+    uint16_t min;
+    uint16_t max;
+} PositionStopRange_t;
+
+static const PositionStopRange_t s_stop_ranges[6] =
+{
+    {4055, 4065},
+    {3837, 3857},
+    {3563, 3593},
+    {3309, 3329},
+    {2022, 2042},
+    { 315,  335}
+};
+
+
+ /* Internal state */
+ static uint16_t s_adc_value = 0U;
+ static uint8_t s_logical_position = FLAP_POSITION_INVALID;
+ static uint8_t s_position_valid = 0U;
+ void PositionSensing_Init(void)
+ {
+     /* SWE-REQ-040: Initialize ADC state */
+     s_adc_value = 0U;
+     s_logical_position = FLAP_POSITION_INVALID;
+     s_position_valid = 0U;
+ }
+ 
+ static uint8_t Position_GetFromADC(uint16_t adc)
+{
+    if (adc > 4000) return 0;
+    if (adc > 3750) return 1;
+    if (adc > 3480) return 2;
+    if (adc > 2500) return 3;
+    if (adc > 1000) return 4;
+    return 5;
+}
+
+uint8_t PositionSensing_IsAtTarget(uint8_t target)
+{
+    if (target >= 6U)
+    {
+        return 0U;
+    }
+
+    if ((s_adc_value >= s_stop_ranges[target].min) &&
+        (s_adc_value <= s_stop_ranges[target].max))
+    {
+        return 1U;
+    }
+
+    return 0U;
+}
+
+
+ void PositionSensing_Update(void)
+{
+    HAL_ADC_Start(&hadc1);
+    if (HAL_ADC_PollForConversion(&hadc1, 2) == HAL_OK)
+    {
+        s_adc_value = (uint16_t)HAL_ADC_GetValue(&hadc1);
+
+        s_logical_position = Position_GetFromADC(s_adc_value);
+        s_position_valid = 1U;
+    }
+    else
+    {
+        s_logical_position = FLAP_POSITION_INVALID;
+        s_position_valid = 0U;
+    }
+}
+
+ uint8_t PositionSensing_GetPosition(uint8_t *pos_out)
+ {
+     /* SWE-REQ-019: Provide current logical position if valid */
+     if((s_position_valid != 0U) && (pos_out != NULL))
+     {
+         *pos_out = s_logical_position;
+         return 1U;
+     }
+     return 0U;
+ }
+ uint8_t PositionSensing_IsValid(void)
+ {
+     /* SWE-REQ-017: Flag for position validity */
+     return s_position_valid;
+ }
+
+
+
+==================================================
+
+FILE CONTEXT:
+
+{'owned_functions': ['PositionSensing_Init', 'Position_GetFromADC', 'PositionSensing_IsAtTarget', 'PositionSensing_Update', 'PositionSensing_GetPosition', 'PositionSensing_IsValid'], 'called_functions': ['Position_GetFromADC'], 'peripherals': [{'name': 'hadc1', 'type': 'ADC'}], 'shared_states': ['hadc1'], 'protected_regions': []}
+
+==================================================
+
+RELEVANT SECURE-C RULES:
+
+
+Rule ID: ARR38-C
+
+Category: ARR
+
+Description:
+Ensure that pointers returned by library functions are valid and do not point outside the allocated object or become invalid due to overflow, underflow, or arithmetic on pointers, to prevent undefined behavior and potential security vulnerabilities.
+
+Fix:
+Validate pointers returned by library functions before use; check that they fall within the bounds of the allocated memory region and avoid arithmetic that produces pointers outside valid ranges.
+
+
+
+Rule ID: FLP36-C
+
+Category: FLP
+
+Description:
+Preserve the precision of integral values when converting to floating-point types by ensuring the floating-point type has sufficient precision to represent the integral value exactly or by using an intermediate type or method to avoid precision loss.
+
+Fix:
+Use a floating-point type with enough precision (e.g., double instead of float) or cast integral values to a wider type before conversion to floating-point to avoid precision loss in embedded C STM32 projects.
+
+
+
+Rule ID: FLP34-C
+
+Category: FLP
+
+Description:
+Ensure that floating-point conversions are within the range of the target type to prevent overflow, underflow, or undefined behavior. Verify that the source value is within the representable limits of the destination float or double type before conversion.
+
+Fix:
+Before casting, check if the floating-point value is within the target type's min and max range using predefined constants or limits, and handle out-of-range cases appropriately to avoid undefined behavior.
+
+
+
+Rule ID: FIO44-C
+
+Category: FIO
+
+Description:
+Only use values for fsetpos() that have been obtained from a prior call to fgetpos() on the same file stream, ensuring that the position indicator is valid and consistent.
+
+Fix:
+Store the position using fpos_t pos; fgetpos(file, &pos); then restore it with fsetpos(file, &pos); avoid using arbitrary or manually created position values.
+
+
+
+Rule ID: ARR30-C
+
+Category: ARR
+
+Description:
+Do not form or use pointers or array subscripts that point outside the bounds of the intended object. Accessing memory outside array bounds causes undefined behavior and may lead to system instability or security vulnerabilities.
+
+Fix:
+Ensure all pointer arithmetic and array indices remain within valid bounds by validating indices against array sizes before access.
+
+
+
+
+==================================================
+
+TASK:
+
+1. Identify only confirmed Secure C violations.
+
+    For every violation assign:
+
+    High
+        Clear violation directly visible in code
+
+    Medium
+        Strong evidence but some interpretation needed
+
+    Low
+        Weak evidence or uncertainty
+
+    Do NOT report potential issues,
+    hypothetical issues,
+    or assumptions.
+
+    Do not report a violation if the code already
+contains a validation, bounds check,
+error handling, or protection mechanism
+that satisfies the Secure C requirement.
+
+Only report violations that are directly observable
+from the source code itself.
+
+    If no violation is present,
+    return:
+
+    {
+        "violations": []
+    }
+2. Explain why each violation occurs.
+3. Suggest remediation.
+4. Return ONLY valid JSON.
+
+    Do not include:
+    - markdown
+    - explanations
+    - code fences
+    - introductory text
+
+Return strictly parsable JSON.
+
+For every violation include:
+
+- exact line number
+- exact code snippet
+- recommendation
+
+The snippet must be copied directly from the source code.
+
+Required JSON Format:
+
+{
+    "violations":
+    [
+        {
+            "rule_id":"",
+            "severity":"",
+            "confidence":"",
+            "issue":"",
+            "line":"",
+            "snippet":"",
+            "recommendation":""
+        }
+    ]
+}
+
+
+

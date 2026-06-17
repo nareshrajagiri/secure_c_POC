@@ -1,0 +1,10 @@
+{
+    "file_type": "header",
+    "declared_functions": [
+        "HAL_TIM_MspPostInit",
+        "Error_Handler"
+    ],
+    "includes": [
+        "stm32f4xx_hal.h"
+    ]
+}

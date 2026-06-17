@@ -1,0 +1,60 @@
+{
+    "owned_functions": [
+        "main",
+        "SystemClock_Config",
+        "MX_GPIO_Init",
+        "MX_ADC1_Init",
+        "MX_USART2_UART_Init",
+        "MX_TIM3_Init",
+        "Error_Handler"
+    ],
+    "called_functions": [
+        "MX_USART2_UART_Init",
+        "PositionSensing_GetPosition",
+        "MotorController_IsMoving",
+        "MX_GPIO_Init",
+        "PositionSensing_Init",
+        "StatusIndicator_Update",
+        "CommandHandler_PollCommand",
+        "MotorController_Update",
+        "MX_TIM3_Init",
+        "Error_Handler",
+        "MotorController_GetTarget",
+        "MotorController_MoveTo",
+        "PositionSensing_Update",
+        "MotorController_Init",
+        "StatusIndicator_Init",
+        "SystemClock_Config",
+        "MX_ADC1_Init"
+    ],
+    "peripherals": [
+        {
+            "name": "huart2",
+            "type": "USART"
+        },
+        {
+            "name": "htim2",
+            "type": "TIM"
+        }
+    ],
+    "shared_states": [
+        "huart2",
+        "hadc1",
+        "htim3",
+        "GPIO_InitStruct"
+    ],
+    "protected_regions": [
+        "USER CODE BEGIN MX_GPIO_Init_1",
+        "USER CODE BEGIN MX_GPIO_Init_2",
+        "USER CODE BEGIN ADC1_Init 0",
+        "USER CODE BEGIN ADC1_Init 1",
+        "USER CODE BEGIN ADC1_Init 2",
+        "USER CODE BEGIN USART2_Init 0",
+        "USER CODE BEGIN USART2_Init 1",
+        "USER CODE BEGIN USART2_Init 2",
+        "USER CODE BEGIN TIM3_Init 0",
+        "USER CODE BEGIN TIM3_Init 1",
+        "USER CODE BEGIN TIM3_Init 2",
+        "USER CODE BEGIN Error_Handler_Debug"
+    ]
+}

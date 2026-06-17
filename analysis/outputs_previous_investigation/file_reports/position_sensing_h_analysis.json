@@ -1,0 +1,25 @@
+{
+    "file": "position_sensing.h",
+    "path": "..\\HVAC_Project\\Core\\Inc\\position_sensing.h",
+    "retrieved_rules": [
+        "FLP32-C",
+        "FLP34-C",
+        "FLP36-C",
+        "ARR38-C",
+        "FLP37-C"
+    ],
+    "context": {
+        "file_type": "header",
+        "declared_functions": [
+            "PositionSensing_Init",
+            "PositionSensing_Update",
+            "PositionSensing_GetPosition",
+            "PositionSensing_IsValid",
+            "PositionSensing_IsAtTarget"
+        ],
+        "includes": [
+            "stdint.h"
+        ]
+    },
+    "violations": []
+}

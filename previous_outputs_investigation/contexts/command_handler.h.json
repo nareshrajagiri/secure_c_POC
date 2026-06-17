@@ -1,0 +1,10 @@
+{
+    "file_type": "header",
+    "declared_functions": [
+        "CommandHandler_PollCommand"
+    ],
+    "includes": [
+        "stdint.h",
+        "stddef.h"
+    ]
+}

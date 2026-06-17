@@ -1,0 +1,37 @@
+[
+    {
+        "metadata": {
+            "rule_id": "DCL31-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL31-C\n\nCategory: DCL\n\nDescription:\nAll identifiers must be declared before their first use to ensure proper type checking, avoid implicit declarations, and prevent undefined behavior.\n\nFix:\nDeclare all variables and functions before their first usage, typically at the beginning of a block or in appropriate header files.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "EXP45-C",
+            "category": "EXP"
+        },
+        "content": "\nRule ID: EXP45-C\n\nCategory: EXP\n\nDescription:\nDo not perform assignment operations within selection statements such as if, while, or for conditions. Assignments inside selection statements can lead to readability issues, introduce subtle bugs, and make the code harder to maintain and debug. Instead, perform all assignments separately before the selection statement.\n\nFix:\nAssign values to variables before the selection statements and use only expressions in the conditions; for example, replace 'if ((x = func()) != 0)' with 'x = func(); if (x != 0)'.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "ERR33-C",
+            "category": "ERR"
+        },
+        "content": "\nRule ID: ERR33-C\n\nCategory: ERR\n\nDescription:\nDetect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.\n\nFix:\nCheck return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "DCL36-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL36-C\n\nCategory: DCL\n\nDescription:\nDo not declare an identifier with conflicting linkage classifications, as this leads to undefined behavior and linkage errors. Ensure all declarations of the same identifier within and across translation units have consistent linkage specifications.\n\nFix:\nEnsure that all declarations of an identifier use the same linkage (e.g., all extern or all static) across all files, avoiding mixing linkage types for the same name.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "DCL40-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL40-C\n\nCategory: DCL\n\nDescription:\nDo not create incompatible declarations of the same function or object. Incompatible declarations can lead to undefined behavior due to mismatched types, calling conventions, or storage durations. Ensure all declarations and definitions consistently use the same type, qualifier, and linkage.\n\nFix:\nEnsure all declarations and definitions of a function or object use exactly the same type, qualifiers, and linkage specifications. In STM32 projects, declare functions in header files with matching prototypes and include these headers consistently across source files.\n"
+    }
+]

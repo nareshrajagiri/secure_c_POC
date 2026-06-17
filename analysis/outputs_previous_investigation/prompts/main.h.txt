@@ -1,0 +1,309 @@
+
+You are a Secure C Compliance Expert.
+
+Assign High confidence only when the violation
+is directly observable from source code.
+
+Do not assign High confidence
+based solely on assumptions
+about concurrency,
+interrupts,
+or external execution context.
+
+==================================================
+
+FILE NAME:
+main.h
+
+==================================================
+
+SOURCE CODE:
+
+
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __MAIN_H
+#define __MAIN_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx_hal.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Exported types ------------------------------------------------------------*/
+/* USER CODE BEGIN ET */
+
+/* USER CODE END ET */
+
+/* Exported constants --------------------------------------------------------*/
+/* USER CODE BEGIN EC */
+
+/* USER CODE END EC */
+
+/* Exported macro ------------------------------------------------------------*/
+/* USER CODE BEGIN EM */
+
+/* USER CODE END EM */
+
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
+/* Exported functions prototypes ---------------------------------------------*/
+void Error_Handler(void);
+
+/* USER CODE BEGIN EFP */
+
+extern TIM_HandleTypeDef htim3;
+extern UART_HandleTypeDef huart2;
+extern ADC_HandleTypeDef hadc1;
+
+/* USER CODE END EFP */
+
+/* Private defines -----------------------------------------------------------*/
+#define CS_I2C_SPI_Pin GPIO_PIN_3
+#define CS_I2C_SPI_GPIO_Port GPIOE
+#define PC14_OSC32_IN_Pin GPIO_PIN_14
+#define PC14_OSC32_IN_GPIO_Port GPIOC
+#define PC15_OSC32_OUT_Pin GPIO_PIN_15
+#define PC15_OSC32_OUT_GPIO_Port GPIOC
+#define PH0_OSC_IN_Pin GPIO_PIN_0
+#define PH0_OSC_IN_GPIO_Port GPIOH
+#define PH1_OSC_OUT_Pin GPIO_PIN_1
+#define PH1_OSC_OUT_GPIO_Port GPIOH
+#define OTG_FS_PowerSwitchOn_Pin GPIO_PIN_0
+#define OTG_FS_PowerSwitchOn_GPIO_Port GPIOC
+#define PDM_OUT_Pin GPIO_PIN_3
+#define PDM_OUT_GPIO_Port GPIOC
+#define I2S3_WS_Pin GPIO_PIN_4
+#define I2S3_WS_GPIO_Port GPIOA
+#define SPI1_SCK_Pin GPIO_PIN_5
+#define SPI1_SCK_GPIO_Port GPIOA
+#define SPI1_MISO_Pin GPIO_PIN_6
+#define SPI1_MISO_GPIO_Port GPIOA
+#define SPI1_MOSI_Pin GPIO_PIN_7
+#define SPI1_MOSI_GPIO_Port GPIOA
+#define BOOT1_Pin GPIO_PIN_2
+#define BOOT1_GPIO_Port GPIOB
+#define CLK_IN_Pin GPIO_PIN_10
+#define CLK_IN_GPIO_Port GPIOB
+#define LD4_Pin GPIO_PIN_12
+#define LD4_GPIO_Port GPIOD
+#define LD3_Pin GPIO_PIN_13
+#define LD3_GPIO_Port GPIOD
+#define LD5_Pin GPIO_PIN_14
+#define LD5_GPIO_Port GPIOD
+#define LD6_Pin GPIO_PIN_15
+#define LD6_GPIO_Port GPIOD
+#define I2S3_MCK_Pin GPIO_PIN_7
+#define I2S3_MCK_GPIO_Port GPIOC
+#define VBUS_FS_Pin GPIO_PIN_9
+#define VBUS_FS_GPIO_Port GPIOA
+#define OTG_FS_ID_Pin GPIO_PIN_10
+#define OTG_FS_ID_GPIO_Port GPIOA
+#define OTG_FS_DM_Pin GPIO_PIN_11
+#define OTG_FS_DM_GPIO_Port GPIOA
+#define OTG_FS_DP_Pin GPIO_PIN_12
+#define OTG_FS_DP_GPIO_Port GPIOA
+#define SWDIO_Pin GPIO_PIN_13
+#define SWDIO_GPIO_Port GPIOA
+#define SWCLK_Pin GPIO_PIN_14
+#define SWCLK_GPIO_Port GPIOA
+#define I2S3_SCK_Pin GPIO_PIN_10
+#define I2S3_SCK_GPIO_Port GPIOC
+#define I2S3_SD_Pin GPIO_PIN_12
+#define I2S3_SD_GPIO_Port GPIOC
+#define Audio_RST_Pin GPIO_PIN_4
+#define Audio_RST_GPIO_Port GPIOD
+#define OTG_FS_OverCurrent_Pin GPIO_PIN_5
+#define OTG_FS_OverCurrent_GPIO_Port GPIOD
+#define SWO_Pin GPIO_PIN_3
+#define SWO_GPIO_Port GPIOB
+#define Audio_SCL_Pin GPIO_PIN_6
+#define Audio_SCL_GPIO_Port GPIOB
+#define Audio_SDA_Pin GPIO_PIN_9
+#define Audio_SDA_GPIO_Port GPIOB
+#define MEMS_INT2_Pin GPIO_PIN_1
+#define MEMS_INT2_GPIO_Port GPIOE
+
+/* USER CODE BEGIN Private defines */
+
+/* ================= MOTOR ================= */
+//#define MOTOR_PIN_FORWARD   GPIO_PIN_0
+//#define MOTOR_PIN_BACKWARD   GPIO_PIN_1
+//#define MOTOR_PORT      GPIOB
+
+#define MOTOR_ENA_PIN   GPIO_PIN_6
+#define MOTOR_ENA_PORT  GPIOB
+
+/* ================= EXTERNAL LEDs ================= */
+//#define RED_LED_PORT    GPIOC
+//#define RED_LED_PIN     GPIO_PIN_0
+
+//#define GREEN_LED_PORT  GPIOC   /* All green LEDs on same port */
+
+//#define GREEN1_LED_PIN  GPIO_PIN_1
+//#define GREEN2_LED_PIN  GPIO_PIN_2
+//#define GREEN3_LED_PIN  GPIO_PIN_3
+//#define GREEN4_LED_PIN  GPIO_PIN_4
+//#define GREEN5_LED_PIN  GPIO_PIN_5
+
+/* USER CODE END Private defines */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __MAIN_H */
+
+
+==================================================
+
+FILE CONTEXT:
+
+{'file_type': 'header', 'declared_functions': ['HAL_TIM_MspPostInit', 'Error_Handler'], 'includes': ['stm32f4xx_hal.h']}
+
+==================================================
+
+RELEVANT SECURE-C RULES:
+
+
+Rule ID: CON33-C
+
+Category: CON
+
+Description:
+Avoid race conditions when using library functions by ensuring that shared resources are accessed in a thread-safe manner. Library functions are not always reentrant or thread-safe, so protect calls to such functions with appropriate synchronization mechanisms to prevent concurrent access that can lead to inconsistent or corrupted data.
+
+Fix:
+Use mutexes or disable interrupts around library function calls that access shared resources to ensure exclusive access, especially in embedded or RTOS-based STM32 applications.
+
+
+
+Rule ID: ERR33-C
+
+Category: ERR
+
+Description:
+Detect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.
+
+Fix:
+Check return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments.
+
+
+
+Rule ID: DCL40-C
+
+Category: DCL
+
+Description:
+Do not create incompatible declarations of the same function or object. Incompatible declarations can lead to undefined behavior due to mismatched types, calling conventions, or storage durations. Ensure all declarations and definitions consistently use the same type, qualifier, and linkage.
+
+Fix:
+Ensure all declarations and definitions of a function or object use exactly the same type, qualifiers, and linkage specifications. In STM32 projects, declare functions in header files with matching prototypes and include these headers consistently across source files.
+
+
+
+Rule ID: MSC40-C
+
+Category: MSC
+
+Description:
+Do not violate constraints imposed by the language or the implementation, such as accessing memory out of bounds, using uninitialized variables, or exceeding hardware limitations. Such violations can lead to undefined behavior, system crashes, or security vulnerabilities.
+
+Fix:
+Validate all inputs, initialize variables before use, and enforce memory boundaries using static or dynamic checks appropriate for embedded environments.
+
+
+
+Rule ID: MSC38-C
+
+Category: MSC
+
+Description:
+Do not treat a predefined identifier as an object if it might only be defined as a macro or a compilerIntrinsic, to avoid undefined behavior or conflicts.
+
+Fix:
+Avoid declaring variables or objects with names matching predefined identifiers; use distinct names or enclosed preprocessing directives to differentiate.
+
+
+
+
+==================================================
+
+TASK:
+
+1. Identify only confirmed Secure C violations.
+
+    For every violation assign:
+
+    High
+        Clear violation directly visible in code
+
+    Medium
+        Strong evidence but some interpretation needed
+
+    Low
+        Weak evidence or uncertainty
+
+    Do NOT report potential issues,
+    hypothetical issues,
+    or assumptions.
+
+    Do not report a violation if the code already
+contains a validation, bounds check,
+error handling, or protection mechanism
+that satisfies the Secure C requirement.
+
+Only report violations that are directly observable
+from the source code itself.
+
+    If no violation is present,
+    return:
+
+    {
+        "violations": []
+    }
+2. Explain why each violation occurs.
+3. Suggest remediation.
+4. Return ONLY valid JSON.
+
+    Do not include:
+    - markdown
+    - explanations
+    - code fences
+    - introductory text
+
+Return strictly parsable JSON.
+
+For every violation include:
+
+- exact line number
+- exact code snippet
+- recommendation
+
+The snippet must be copied directly from the source code.
+
+Required JSON Format:
+
+{
+    "violations":
+    [
+        {
+            "rule_id":"",
+            "severity":"",
+            "confidence":"",
+            "issue":"",
+            "line":"",
+            "snippet":"",
+            "recommendation":""
+        }
+    ]
+}
+
+
+

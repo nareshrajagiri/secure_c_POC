@@ -1,0 +1,95 @@
+{
+    "violations":
+    [
+        {
+            "rule_id":"STR31-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Buffer overflow: strcpy writes more data than small_buffer can hold, causing overflow.",
+            "line":"8",
+            "snippet":"strcpy(small_buffer, \"THIS_STRING_IS_TOO_LONG\");",
+            "recommendation":"Ensure the destination buffer is large enough for the source string and null terminator, or use strncpy with proper bounds checking."
+        },
+        {
+            "rule_id":"STR30-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Attempt to modify a string literal, which is undefined behavior.",
+            "line":"11",
+            "snippet":"msg[0] = 'X';",
+            "recommendation":"Copy the string literal into a modifiable array before attempting to modify it."
+        },
+        {
+            "rule_id":"EXP34-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Dereferencing a NULL pointer, causing undefined behavior.",
+            "line":"14",
+            "snippet":"*ptr = 10;",
+            "recommendation":"Ensure the pointer is assigned a valid memory address before dereferencing."
+        },
+        {
+            "rule_id":"EXP33-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Reading from an uninitialized variable, which is undefined behavior.",
+            "line":"17",
+            "snippet":"int result = uninitialized_var + 1;",
+            "recommendation":"Initialize variables before use."
+        },
+        {
+            "rule_id":"ARR30-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Out-of-bounds array access: arr[10] is outside the bounds of arr[5].",
+            "line":"20",
+            "snippet":"arr[10] = 100;",
+            "recommendation":"Ensure array indices are within valid bounds before accessing."
+        },
+        {
+            "rule_id":"INT33-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Division by zero, which is undefined behavior.",
+            "line":"24",
+            "snippet":"int c = a / b;",
+            "recommendation":"Check that the divisor is not zero before performing division."
+        },
+        {
+            "rule_id":"INT31-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Assigning 300 to an unsigned char causes integer overflow (implementation-defined or undefined behavior).",
+            "line":"27",
+            "snippet":"unsigned char value = 300;",
+            "recommendation":"Ensure assigned values are within the range of the target type."
+        },
+        {
+            "rule_id":"MSC40-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"malloc(2) allocates insufficient memory for two int elements; numbers[1] = 10; writes out of bounds.",
+            "line":"30",
+            "snippet":"int *numbers = malloc(2);\nnumbers[1] = 10;",
+            "recommendation":"Allocate memory using malloc(sizeof(int) * number_of_elements)."
+        },
+        {
+            "rule_id":"EXP45-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Assignment used in if condition, which can cause logic errors and reduces code clarity.",
+            "line":"34",
+            "snippet":"if (flag = 1)",
+            "recommendation":"Use '==' for comparison or perform assignment before the if statement."
+        },
+        {
+            "rule_id":"ERR33-C",
+            "severity":"High",
+            "confidence":"High",
+            "issue":"Return value of fopen is not checked for NULL before use, leading to possible undefined behavior in fclose.",
+            "line":"39",
+            "snippet":"FILE *fp = fopen(\"dummy.txt\", \"r\");\nfclose(fp);",
+            "recommendation":"Check if fopen returns NULL before using the FILE pointer."
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+[
+    {
+        "rule_id": "PRE30-C",
+        "category": "PRE",
+        "description": "Avoid creating universal character names through concatenation as it can lead to undefined or unexpected behavior in character representations.",
+        "fix": "Use explicit universal character names directly instead of concatenating character sequences."
+    },
+    {
+        "rule_id": "PRE31-C",
+        "category": "PRE",
+        "description": "Do not use expressions with side effects as arguments to unsafe macros, as this can cause unexpected behavior or multiple evaluations.",
+        "fix": "Evaluate expressions with side effects before passing them to macros by using temporary variables."
+    },
+    {
+        "rule_id": "PRE32-C",
+        "category": "PRE",
+        "description": "Avoid using preprocessor directives within the arguments of function-like macro invocations, as this can lead to unpredictable behavior and difficult-to-maintain code.",
+        "fix": "Refactor code to eliminate preprocessor directives inside macro arguments by using constants, inline functions, or separate preprocessing steps."
+    },
+    {
+        "rule_id": "DCL30-C",
+        "category": "DCL",
+        "description": "Ensure objects are declared with the proper storage duration to avoid unintended persistence or premature destruction, which can lead to undefined behavior or security vulnerabilities.",
+        "fix": "Declare variables with the minimal necessary storage duration, using automatic storage for local objects and static storage only when persistence across function calls is needed."
+    },
+    {
+        "rule_id": "DCL31-C",
+        "category": "DCL",
+        "description": "All identifiers must be declared before their first use to ensure proper type checking and avoid undefined behavior.",
+        "fix": "Declare all variables and functions before their first usage in the code."
+    }
+]

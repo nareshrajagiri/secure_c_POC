@@ -1,0 +1,25 @@
+{
+    "file": "status_indicator.c",
+    "path": "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\status_indicator.c",
+    "retrieved_rules": [
+        "FIO44-C",
+        "EXP45-C",
+        "ERR33-C",
+        "MSC32-C",
+        "DCL40-C"
+    ],
+    "context": {
+        "owned_functions": [
+            "StatusIndicator_Init",
+            "StatusIndicator_Update",
+            "StatusIndicator_SetPowerLED"
+        ],
+        "called_functions": [],
+        "peripherals": [],
+        "shared_states": [
+            "GPIO_InitStruct"
+        ],
+        "protected_regions": []
+    },
+    "violations": []
+}

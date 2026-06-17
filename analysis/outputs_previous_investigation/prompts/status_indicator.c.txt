@@ -1,0 +1,229 @@
+
+You are a Secure C Compliance Expert.
+
+Assign High confidence only when the violation
+is directly observable from source code.
+
+Do not assign High confidence
+based solely on assumptions
+about concurrency,
+interrupts,
+or external execution context.
+
+==================================================
+
+FILE NAME:
+status_indicator.c
+
+==================================================
+
+SOURCE CODE:
+
+
+ #include "status_indicator.h"
+ #include "stm32f4xx_hal.h"
+ #define LED_POWER_PORT         GPIOC
+ #define LED_POWER_PIN          GPIO_PIN_0
+ #define LED_POS_PORT           GPIOC
+ 
+ static GPIO_InitTypeDef GPIO_InitStruct;
+ static const uint16_t s_led_pos_pins[STATUS_INDICATOR_NUM] = {
+      GPIO_PIN_1, GPIO_PIN_2, GPIO_PIN_3, GPIO_PIN_4, GPIO_PIN_5
+ };
+ void StatusIndicator_Init(void)
+ {
+     GPIO_InitStruct.Pin = LED_POWER_PIN | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+     /* Turn power LED ON, all position LEDs off */
+     HAL_GPIO_WritePin(LED_POWER_PORT, LED_POWER_PIN, GPIO_PIN_SET);
+     for(uint8_t i = 0U; i < STATUS_INDICATOR_NUM; ++i)
+     {
+         HAL_GPIO_WritePin(LED_POS_PORT, s_led_pos_pins[i], GPIO_PIN_RESET);
+     }
+ }
+ void StatusIndicator_Update(uint8_t position_valid, uint8_t logical_position)
+ {
+     /* Turn OFF all position LEDs */
+     for (uint8_t i = 0U; i < STATUS_INDICATOR_NUM; ++i)
+     {
+         HAL_GPIO_WritePin(LED_POS_PORT, s_led_pos_pins[i], GPIO_PIN_RESET);
+     }
+
+     /* Position 0 → no green LED */
+     if ((position_valid != 0U) && (logical_position > 0U) &&
+         (logical_position <= STATUS_INDICATOR_NUM))
+     {
+         /* position 1 → LED 0
+            position 2 → LED 1
+            ...
+            position 5 → LED 4 */
+         HAL_GPIO_WritePin(LED_POS_PORT,
+                           s_led_pos_pins[logical_position - 1U],
+                           GPIO_PIN_SET);
+     }
+ }
+
+ void StatusIndicator_SetPowerLED(uint8_t onoff)
+ {
+     /* 1 = ON, 0 = OFF */
+     if(onoff)
+     {
+         HAL_GPIO_WritePin(LED_POWER_PORT, LED_POWER_PIN, GPIO_PIN_SET);
+     }
+     else
+     {
+         HAL_GPIO_WritePin(LED_POWER_PORT, LED_POWER_PIN, GPIO_PIN_RESET);
+     }
+ }
+
+
+
+==================================================
+
+FILE CONTEXT:
+
+{'owned_functions': ['StatusIndicator_Init', 'StatusIndicator_Update', 'StatusIndicator_SetPowerLED'], 'called_functions': [], 'peripherals': [], 'shared_states': ['GPIO_InitStruct'], 'protected_regions': []}
+
+==================================================
+
+RELEVANT SECURE-C RULES:
+
+
+Rule ID: FIO44-C
+
+Category: FIO
+
+Description:
+Only use values for fsetpos() that have been obtained from a prior call to fgetpos() on the same file stream, ensuring that the position indicator is valid and consistent.
+
+Fix:
+Store the position using fpos_t pos; fgetpos(file, &pos); then restore it with fsetpos(file, &pos); avoid using arbitrary or manually created position values.
+
+
+
+Rule ID: EXP45-C
+
+Category: EXP
+
+Description:
+Do not perform assignment operations within selection statements such as if, while, or for conditions. Assignments inside selection statements can lead to readability issues, introduce subtle bugs, and make the code harder to maintain and debug. Instead, perform all assignments separately before the selection statement.
+
+Fix:
+Assign values to variables before the selection statements and use only expressions in the conditions; for example, replace 'if ((x = func()) != 0)' with 'x = func(); if (x != 0)'.
+
+
+
+Rule ID: ERR33-C
+
+Category: ERR
+
+Description:
+Detect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.
+
+Fix:
+Check return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments.
+
+
+
+Rule ID: MSC32-C
+
+Category: MSC
+
+Description:
+Properly seed pseudorandom number generators (PRNGs) using sources of sufficient entropy before generating random values to ensure unpredictable sequences and prevent security vulnerabilities arising from predictable pseudorandom numbers.
+
+Fix:
+Use a high-entropy seed such as a hardware RNG, unique device ID, or timer-based value to initialize the PRNG before generating random numbers, e.g., srand((unsigned int)HAL_GetTick()); for STM32.
+
+
+
+Rule ID: DCL40-C
+
+Category: DCL
+
+Description:
+Do not create incompatible declarations of the same function or object. Incompatible declarations can lead to undefined behavior due to mismatched types, calling conventions, or storage durations. Ensure all declarations and definitions consistently use the same type, qualifier, and linkage.
+
+Fix:
+Ensure all declarations and definitions of a function or object use exactly the same type, qualifiers, and linkage specifications. In STM32 projects, declare functions in header files with matching prototypes and include these headers consistently across source files.
+
+
+
+
+==================================================
+
+TASK:
+
+1. Identify only confirmed Secure C violations.
+
+    For every violation assign:
+
+    High
+        Clear violation directly visible in code
+
+    Medium
+        Strong evidence but some interpretation needed
+
+    Low
+        Weak evidence or uncertainty
+
+    Do NOT report potential issues,
+    hypothetical issues,
+    or assumptions.
+
+    Do not report a violation if the code already
+contains a validation, bounds check,
+error handling, or protection mechanism
+that satisfies the Secure C requirement.
+
+Only report violations that are directly observable
+from the source code itself.
+
+    If no violation is present,
+    return:
+
+    {
+        "violations": []
+    }
+2. Explain why each violation occurs.
+3. Suggest remediation.
+4. Return ONLY valid JSON.
+
+    Do not include:
+    - markdown
+    - explanations
+    - code fences
+    - introductory text
+
+Return strictly parsable JSON.
+
+For every violation include:
+
+- exact line number
+- exact code snippet
+- recommendation
+
+The snippet must be copied directly from the source code.
+
+Required JSON Format:
+
+{
+    "violations":
+    [
+        {
+            "rule_id":"",
+            "severity":"",
+            "confidence":"",
+            "issue":"",
+            "line":"",
+            "snippet":"",
+            "recommendation":""
+        }
+    ]
+}
+
+
+

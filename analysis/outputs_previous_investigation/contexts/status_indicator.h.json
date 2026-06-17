@@ -1,0 +1,11 @@
+{
+    "file_type": "header",
+    "declared_functions": [
+        "STATUS_INDICATOR_NUM",
+        "StatusIndicator_Update",
+        "StatusIndicator_SetPowerLED"
+    ],
+    "includes": [
+        "stdint.h"
+    ]
+}

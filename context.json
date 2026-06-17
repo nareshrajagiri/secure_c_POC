@@ -1,0 +1,326 @@
+{
+    "dependency_graph": {
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\command_handler.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\main.h": [
+            "stm32f4xx_hal.h"
+        ],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\motor_controller.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\position_sensing.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\status_indicator.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\command_handler.c": [
+            "command_handler.h",
+            "stm32f4xx_hal.h"
+        ],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\main.c": [
+            "main.h",
+            "command_handler.h",
+            "position_sensing.h",
+            "motor_controller.h",
+            "status_indicator.h",
+            "stm32f4xx_hal.h"
+        ],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\motor_controller.c": [
+            "motor_controller.h",
+            "position_sensing.h",
+            "stm32f4xx_hal.h"
+        ],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\position_sensing.c": [
+            "position_sensing.h",
+            "stm32f4xx_hal.h"
+        ],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\status_indicator.c": [
+            "status_indicator.h",
+            "stm32f4xx_hal.h"
+        ]
+    },
+    "symbol_ownership": {
+        "functions": {
+            "CommandHandler_PollCommand": "command_handler.c",
+            "main": "main.c",
+            "SystemClock_Config": "main.c",
+            "MX_GPIO_Init": "main.c",
+            "MX_ADC1_Init": "main.c",
+            "MX_USART2_UART_Init": "main.c",
+            "MX_TIM3_Init": "main.c",
+            "Error_Handler": "main.c",
+            "MotorController_Init": "motor_controller.c",
+            "MotorController_MoveTo": "motor_controller.c",
+            "MotorController_Update": "motor_controller.c",
+            "MotorController_Abort": "motor_controller.c",
+            "MotorController_GetState": "motor_controller.c",
+            "MotorController_IsMoving": "motor_controller.c",
+            "MotorController_GetTarget": "motor_controller.c",
+            "PositionSensing_Init": "position_sensing.c",
+            "Position_GetFromADC": "position_sensing.c",
+            "PositionSensing_IsAtTarget": "position_sensing.c",
+            "PositionSensing_Update": "position_sensing.c",
+            "PositionSensing_GetPosition": "position_sensing.c",
+            "PositionSensing_IsValid": "position_sensing.c",
+            "StatusIndicator_Init": "status_indicator.c",
+            "StatusIndicator_Update": "status_indicator.c",
+            "StatusIndicator_SetPowerLED": "status_indicator.c"
+        }
+    },
+    "interface_contracts": {
+        "CommandHandler_PollCommand": {
+            "return_type": "uint8_t",
+            "parameters": [
+                {
+                    "name": "cmd_out",
+                    "type": "uint8_t *"
+                }
+            ]
+        },
+        "HAL_TIM_MspPostInit": {
+            "return_type": "void",
+            "parameters": [
+                {
+                    "name": "htim",
+                    "type": "TIM_HandleTypeDef *"
+                }
+            ]
+        },
+        "Error_Handler": {
+            "return_type": "void",
+            "parameters": []
+        },
+        "MotorController_Init": {
+            "return_type": "void",
+            "parameters": []
+        },
+        "MotorController_MoveTo": {
+            "return_type": "void",
+            "parameters": [
+                {
+                    "name": "target_position",
+                    "type": "uint8_t"
+                }
+            ]
+        },
+        "MotorController_Update": {
+            "return_type": "void",
+            "parameters": []
+        },
+        "MotorController_Abort": {
+            "return_type": "void",
+            "parameters": []
+        },
+        "MotorController_IsMoving": {
+            "return_type": "uint8_t",
+            "parameters": []
+        },
+        "MotorController_GetTarget": {
+            "return_type": "uint8_t",
+            "parameters": [
+                {
+                    "name": "target",
+                    "type": "uint8_t *"
+                }
+            ]
+        },
+        "MotorController_GetState": {
+            "return_type": "MotorState_t",
+            "parameters": []
+        },
+        "PositionSensing_Init": {
+            "return_type": "void",
+            "parameters": []
+        },
+        "PositionSensing_Update": {
+            "return_type": "void",
+            "parameters": []
+        },
+        "PositionSensing_GetPosition": {
+            "return_type": "uint8_t",
+            "parameters": [
+                {
+                    "name": "pos_out",
+                    "type": "uint8_t *"
+                }
+            ]
+        },
+        "PositionSensing_IsValid": {
+            "return_type": "uint8_t",
+            "parameters": []
+        },
+        "PositionSensing_IsAtTarget": {
+            "return_type": "uint8_t",
+            "parameters": [
+                {
+                    "name": "target",
+                    "type": "uint8_t"
+                }
+            ]
+        },
+        "StatusIndicator_Init": {
+            "return_type": "void",
+            "parameters": []
+        },
+        "StatusIndicator_Update": {
+            "return_type": "void",
+            "parameters": [
+                {
+                    "name": "position_valid",
+                    "type": "uint8_t"
+                },
+                {
+                    "name": "logical_position",
+                    "type": "uint8_t"
+                }
+            ]
+        },
+        "StatusIndicator_SetPowerLED": {
+            "return_type": "void",
+            "parameters": [
+                {
+                    "name": "onoff",
+                    "type": "uint8_t"
+                }
+            ]
+        }
+    },
+    "call_graph": {
+        "CommandHandler_PollCommand": [],
+        "main": [
+            "SystemClock_Config",
+            "MX_GPIO_Init",
+            "MX_ADC1_Init",
+            "MX_USART2_UART_Init",
+            "MX_TIM3_Init",
+            "StatusIndicator_Init",
+            "PositionSensing_Init",
+            "MotorController_Init",
+            "PositionSensing_Update",
+            "PositionSensing_GetPosition",
+            "StatusIndicator_Update",
+            "CommandHandler_PollCommand",
+            "MotorController_MoveTo",
+            "MotorController_IsMoving",
+            "MotorController_GetTarget",
+            "MotorController_Update"
+        ],
+        "SystemClock_Config": [
+            "Error_Handler"
+        ],
+        "MX_GPIO_Init": [],
+        "MX_ADC1_Init": [
+            "Error_Handler"
+        ],
+        "MX_USART2_UART_Init": [
+            "Error_Handler"
+        ],
+        "MX_TIM3_Init": [
+            "Error_Handler"
+        ],
+        "Error_Handler": [],
+        "MotorController_Init": [],
+        "MotorController_MoveTo": [
+            "PositionSensing_GetPosition",
+            "MotorController_Abort"
+        ],
+        "MotorController_Update": [
+            "PositionSensing_Update",
+            "PositionSensing_GetPosition",
+            "PositionSensing_IsAtTarget",
+            "MotorController_Abort"
+        ],
+        "MotorController_Abort": [],
+        "MotorController_GetState": [],
+        "MotorController_IsMoving": [],
+        "MotorController_GetTarget": [],
+        "PositionSensing_Init": [],
+        "Position_GetFromADC": [],
+        "PositionSensing_IsAtTarget": [],
+        "PositionSensing_Update": [
+            "Position_GetFromADC"
+        ],
+        "PositionSensing_GetPosition": [],
+        "PositionSensing_IsValid": [],
+        "StatusIndicator_Init": [],
+        "StatusIndicator_Update": [],
+        "StatusIndicator_SetPowerLED": []
+    },
+    "shared_state_map": {
+        "huart2": {
+            "defined_in": "main.c",
+            "type": "UART_HandleTypeDef",
+            "used_by": [
+                "command_handler.c"
+            ]
+        },
+        "hadc1": {
+            "defined_in": "position_sensing.c",
+            "type": "ADC_HandleTypeDef",
+            "used_by": [
+                "main.c"
+            ]
+        },
+        "htim3": {
+            "defined_in": "motor_controller.c",
+            "type": "TIM_HandleTypeDef",
+            "used_by": [
+                "main.c"
+            ]
+        },
+        "GPIO_InitStruct": {
+            "defined_in": "status_indicator.c",
+            "type": "GPIO_InitTypeDef",
+            "used_by": [
+                "main.c",
+                "motor_controller.c"
+            ]
+        }
+    },
+    "protected_regions": {
+        "user_code_regions": {
+            "main.h": [
+                "USER CODE BEGIN Includes",
+                "USER CODE BEGIN ET",
+                "USER CODE BEGIN EC",
+                "USER CODE BEGIN EM",
+                "USER CODE BEGIN EFP",
+                "USER CODE BEGIN Private defines"
+            ],
+            "main.c": [
+                "USER CODE BEGIN MX_GPIO_Init_1",
+                "USER CODE BEGIN MX_GPIO_Init_2",
+                "USER CODE BEGIN ADC1_Init 0",
+                "USER CODE BEGIN ADC1_Init 1",
+                "USER CODE BEGIN ADC1_Init 2",
+                "USER CODE BEGIN USART2_Init 0",
+                "USER CODE BEGIN USART2_Init 1",
+                "USER CODE BEGIN USART2_Init 2",
+                "USER CODE BEGIN TIM3_Init 0",
+                "USER CODE BEGIN TIM3_Init 1",
+                "USER CODE BEGIN TIM3_Init 2",
+                "USER CODE BEGIN Error_Handler_Debug"
+            ]
+        },
+        "generated_functions": {
+            "main.c": [
+                "MX_ADC1_Init",
+                "MX_GPIO_Init",
+                "MX_TIM3_Init",
+                "MX_USART2_UART_Init"
+            ]
+        }
+    },
+    "peripheral_ownership": {
+        "huart2": {
+            "type": "USART",
+            "owner": "main.c"
+        },
+        "hadc1": {
+            "type": "ADC",
+            "owner": "position_sensing.c"
+        },
+        "htim3": {
+            "type": "TIM",
+            "owner": "motor_controller.c"
+        },
+        "htim2": {
+            "type": "TIM",
+            "owner": "main.c"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+../Core/Src/motor_controller.c:21:7:MotorController_Init	1
+../Core/Src/motor_controller.c:44:7:MotorController_MoveTo	4
+../Core/Src/motor_controller.c:80:7:MotorController_Update	4
+../Core/Src/motor_controller.c:103:7:MotorController_Abort	1
+../Core/Src/motor_controller.c:113:15:MotorController_GetState	1
+../Core/Src/motor_controller.c:118:10:MotorController_IsMoving	1
+../Core/Src/motor_controller.c:123:10:MotorController_GetTarget	4

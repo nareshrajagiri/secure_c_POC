@@ -1,0 +1,22 @@
+{
+    "file": "command_handler.h",
+    "path": "..\\HVAC_Project\\Core\\Inc\\command_handler.h",
+    "retrieved_rules": [
+        "STR37-C",
+        "SIG31-C",
+        "SIG30-C",
+        "INT36-C",
+        "SIG34-C"
+    ],
+    "context": {
+        "file_type": "header",
+        "declared_functions": [
+            "CommandHandler_PollCommand"
+        ],
+        "includes": [
+            "stdint.h",
+            "stddef.h"
+        ]
+    },
+    "violations": []
+}

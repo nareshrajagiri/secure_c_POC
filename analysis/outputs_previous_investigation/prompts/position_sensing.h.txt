@@ -1,0 +1,188 @@
+
+You are a Secure C Compliance Expert.
+
+Assign High confidence only when the violation
+is directly observable from source code.
+
+Do not assign High confidence
+based solely on assumptions
+about concurrency,
+interrupts,
+or external execution context.
+
+==================================================
+
+FILE NAME:
+position_sensing.h
+
+==================================================
+
+SOURCE CODE:
+
+
+ #ifndef POSITION_SENSING_H
+ #define POSITION_SENSING_H
+ #include <stdint.h>
+ #define FLAP_POSITION_NUM   (6U) /* 0 to 5 */
+ #define FLAP_POSITION_INVALID (0xFFU)
+ typedef struct
+ {
+     uint16_t adc_min;
+     uint16_t adc_max;
+ } PositionRange_t;
+ void PositionSensing_Init(void);
+ void PositionSensing_Update(void);
+ uint8_t PositionSensing_GetPosition(uint8_t *pos_out);
+ uint8_t PositionSensing_IsValid(void);
+ uint8_t PositionSensing_IsAtTarget(uint8_t target);
+
+ #endif /* POSITION_SENSING_H */
+
+
+
+==================================================
+
+FILE CONTEXT:
+
+{'file_type': 'header', 'declared_functions': ['PositionSensing_Init', 'PositionSensing_Update', 'PositionSensing_GetPosition', 'PositionSensing_IsValid', 'PositionSensing_IsAtTarget'], 'includes': ['stdint.h']}
+
+==================================================
+
+RELEVANT SECURE-C RULES:
+
+
+Rule ID: FLP32-C
+
+Category: FLP
+
+Description:
+Prevent or detect domain and range errors in mathematical functions by validating input arguments before calling floating-point library functions, ensuring arguments fall within expected domains to avoid undefined behavior or erroneous results.
+
+Fix:
+Validate inputs explicitly prior to math function calls; for example, check conditions such as x >= 0 before calling sqrt(x), and handle out-of-range inputs gracefully.
+
+
+
+Rule ID: FLP34-C
+
+Category: FLP
+
+Description:
+Ensure that floating-point conversions are within the range of the target type to prevent overflow, underflow, or undefined behavior. Verify that the source value is within the representable limits of the destination float or double type before conversion.
+
+Fix:
+Before casting, check if the floating-point value is within the target type's min and max range using predefined constants or limits, and handle out-of-range cases appropriately to avoid undefined behavior.
+
+
+
+Rule ID: FLP36-C
+
+Category: FLP
+
+Description:
+Preserve the precision of integral values when converting to floating-point types by ensuring the floating-point type has sufficient precision to represent the integral value exactly or by using an intermediate type or method to avoid precision loss.
+
+Fix:
+Use a floating-point type with enough precision (e.g., double instead of float) or cast integral values to a wider type before conversion to floating-point to avoid precision loss in embedded C STM32 projects.
+
+
+
+Rule ID: ARR38-C
+
+Category: ARR
+
+Description:
+Ensure that pointers returned by library functions are valid and do not point outside the allocated object or become invalid due to overflow, underflow, or arithmetic on pointers, to prevent undefined behavior and potential security vulnerabilities.
+
+Fix:
+Validate pointers returned by library functions before use; check that they fall within the bounds of the allocated memory region and avoid arithmetic that produces pointers outside valid ranges.
+
+
+
+Rule ID: FLP37-C
+
+Category: FLP
+
+Description:
+Do not use object representations (e.g., memcmp, bitwise comparison) to compare floating-point values as this can produce incorrect results due to different bit patterns representing the same value or due to floating-point precision and rounding errors.
+
+Fix:
+Compare floating-point values using an absolute error tolerance: use fabs(a - b) < epsilon, where epsilon is a small value appropriate for the application's precision requirements.
+
+
+
+
+==================================================
+
+TASK:
+
+1. Identify only confirmed Secure C violations.
+
+    For every violation assign:
+
+    High
+        Clear violation directly visible in code
+
+    Medium
+        Strong evidence but some interpretation needed
+
+    Low
+        Weak evidence or uncertainty
+
+    Do NOT report potential issues,
+    hypothetical issues,
+    or assumptions.
+
+    Do not report a violation if the code already
+contains a validation, bounds check,
+error handling, or protection mechanism
+that satisfies the Secure C requirement.
+
+Only report violations that are directly observable
+from the source code itself.
+
+    If no violation is present,
+    return:
+
+    {
+        "violations": []
+    }
+2. Explain why each violation occurs.
+3. Suggest remediation.
+4. Return ONLY valid JSON.
+
+    Do not include:
+    - markdown
+    - explanations
+    - code fences
+    - introductory text
+
+Return strictly parsable JSON.
+
+For every violation include:
+
+- exact line number
+- exact code snippet
+- recommendation
+
+The snippet must be copied directly from the source code.
+
+Required JSON Format:
+
+{
+    "violations":
+    [
+        {
+            "rule_id":"",
+            "severity":"",
+            "confidence":"",
+            "issue":"",
+            "line":"",
+            "snippet":"",
+            "recommendation":""
+        }
+    ]
+}
+
+
+

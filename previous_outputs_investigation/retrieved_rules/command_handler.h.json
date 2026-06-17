@@ -1,0 +1,37 @@
+[
+    {
+        "metadata": {
+            "rule_id": "STR37-C",
+            "category": "STR"
+        },
+        "content": "\nRule ID: STR37-C\n\nCategory: STR\n\nDescription:\nArguments to character-handling functions, such as isalpha(), isdigit(), and tolower(), must be representable as an unsigned char value or be equal to EOF to avoid undefined behavior.\n\nFix:\nCast arguments to unsigned char before passing them to character-handling functions, ensuring the value is valid or EOF.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "SIG31-C",
+            "category": "SIG"
+        },
+        "content": "\nRule ID: SIG31-C\n\nCategory: SIG\n\nDescription:\nDo not access or modify shared objects in signal handlers, as signal handlers can interrupt the main program flow at unpredictable points, leading to data races or inconsistent state if shared objects are accessed without synchronization.\n\nFix:\nUse atomic operations or set a flag of type volatile sig_atomic_t in the signal handler and handle the shared object outside the handler to ensure safe access.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "SIG30-C",
+            "category": "SIG"
+        },
+        "content": "\nRule ID: SIG30-C\n\nCategory: SIG\n\nDescription:\nCall only asynchronous-safe functions within signal handlers. Signal handlers must avoid calls to functions that are not guaranteed to be reentrant or async-signal-safe, as this can cause deadlocks, data corruption, or undefined behavior.\n\nFix:\nUse only async-signal-safe functions inside signal handlers; communicate with main code via volatile flags or write to a pipe or queue for deferred processing.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "INT36-C",
+            "category": "INT"
+        },
+        "content": "\nRule ID: INT36-C\n\nCategory: INT\n\nDescription:\nAvoid converting pointers to integers or integers to pointers, as such conversions are implementation-defined and may lead to incorrect behavior or portability issues. Use uintptr_t or intptr_t from stdint.h for storing pointer values in integers when necessary.\n\nFix:\nUse uintptr_t or intptr_t to safely cast pointers to integers and back, ensuring type correctness and portability.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "SIG34-C",
+            "category": "SIG"
+        },
+        "content": "\nRule ID: SIG34-C\n\nCategory: SIG\n\nDescription:\nDo not call signal() from within interruptible signal handlers as it can lead to undefined behavior and signal handling inconsistencies. Instead, use async-signal-safe functions to manage signal behavior inside handlers.\n\nFix:\nAvoid invoking signal() inside signal handlers. Configure signal handlers once during initialization, and rely on flags or volatile variables to communicate between the handler and main code.\n"
+    }
+]

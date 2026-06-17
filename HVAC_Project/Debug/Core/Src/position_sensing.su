@@ -1,0 +1,6 @@
+../Core/Src/position_sensing.c:31:7:PositionSensing_Init	4	static
+../Core/Src/position_sensing.c:39:17:Position_GetFromADC	16	static
+../Core/Src/position_sensing.c:49:9:PositionSensing_IsAtTarget	16	static
+../Core/Src/position_sensing.c:66:7:PositionSensing_Update	8	static
+../Core/Src/position_sensing.c:83:10:PositionSensing_GetPosition	16	static
+../Core/Src/position_sensing.c:93:10:PositionSensing_IsValid	4	static

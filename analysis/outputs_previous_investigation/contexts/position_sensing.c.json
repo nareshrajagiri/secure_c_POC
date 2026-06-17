@@ -1,0 +1,23 @@
+{
+    "owned_functions": [
+        "PositionSensing_Init",
+        "Position_GetFromADC",
+        "PositionSensing_IsAtTarget",
+        "PositionSensing_Update",
+        "PositionSensing_GetPosition",
+        "PositionSensing_IsValid"
+    ],
+    "called_functions": [
+        "Position_GetFromADC"
+    ],
+    "peripherals": [
+        {
+            "name": "hadc1",
+            "type": "ADC"
+        }
+    ],
+    "shared_states": [
+        "hadc1"
+    ],
+    "protected_regions": []
+}

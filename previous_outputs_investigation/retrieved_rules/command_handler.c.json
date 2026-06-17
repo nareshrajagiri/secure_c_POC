@@ -1,0 +1,37 @@
+[
+    {
+        "metadata": {
+            "rule_id": "ERR33-C",
+            "category": "ERR"
+        },
+        "content": "\nRule ID: ERR33-C\n\nCategory: ERR\n\nDescription:\nDetect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.\n\nFix:\nCheck return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "SIG31-C",
+            "category": "SIG"
+        },
+        "content": "\nRule ID: SIG31-C\n\nCategory: SIG\n\nDescription:\nDo not access or modify shared objects in signal handlers, as signal handlers can interrupt the main program flow at unpredictable points, leading to data races or inconsistent state if shared objects are accessed without synchronization.\n\nFix:\nUse atomic operations or set a flag of type volatile sig_atomic_t in the signal handler and handle the shared object outside the handler to ensure safe access.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "STR37-C",
+            "category": "STR"
+        },
+        "content": "\nRule ID: STR37-C\n\nCategory: STR\n\nDescription:\nArguments to character-handling functions, such as isalpha(), isdigit(), and tolower(), must be representable as an unsigned char value or be equal to EOF to avoid undefined behavior.\n\nFix:\nCast arguments to unsigned char before passing them to character-handling functions, ensuring the value is valid or EOF.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "CON33-C",
+            "category": "CON"
+        },
+        "content": "\nRule ID: CON33-C\n\nCategory: CON\n\nDescription:\nAvoid race conditions when using library functions by ensuring that shared resources are accessed in a thread-safe manner. Library functions are not always reentrant or thread-safe, so protect calls to such functions with appropriate synchronization mechanisms to prevent concurrent access that can lead to inconsistent or corrupted data.\n\nFix:\nUse mutexes or disable interrupts around library function calls that access shared resources to ensure exclusive access, especially in embedded or RTOS-based STM32 applications.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "SIG30-C",
+            "category": "SIG"
+        },
+        "content": "\nRule ID: SIG30-C\n\nCategory: SIG\n\nDescription:\nCall only asynchronous-safe functions within signal handlers. Signal handlers must avoid calls to functions that are not guaranteed to be reentrant or async-signal-safe, as this can cause deadlocks, data corruption, or undefined behavior.\n\nFix:\nUse only async-signal-safe functions inside signal handlers; communicate with main code via volatile flags or write to a pipe or queue for deferred processing.\n"
+    }
+]

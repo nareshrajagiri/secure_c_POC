@@ -1,0 +1,23 @@
+{
+    "file": "status_indicator.h",
+    "path": "..\\HVAC_Project\\Core\\Inc\\status_indicator.h",
+    "retrieved_rules": [
+        "DCL31-C",
+        "EXP45-C",
+        "ERR33-C",
+        "DCL36-C",
+        "DCL40-C"
+    ],
+    "context": {
+        "file_type": "header",
+        "declared_functions": [
+            "STATUS_INDICATOR_NUM",
+            "StatusIndicator_Update",
+            "StatusIndicator_SetPowerLED"
+        ],
+        "includes": [
+            "stdint.h"
+        ]
+    },
+    "violations": []
+}

@@ -1,0 +1,27 @@
+{
+    "file": "motor_controller.h",
+    "path": "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\motor_controller.h",
+    "retrieved_rules": [
+        "DCL31-C",
+        "DCL40-C",
+        "MSC40-C",
+        "MSC38-C",
+        "MSC37-C"
+    ],
+    "context": {
+        "file_type": "header",
+        "declared_functions": [
+            "MotorController_Init",
+            "MotorController_MoveTo",
+            "MotorController_Update",
+            "MotorController_Abort",
+            "MotorController_IsMoving",
+            "MotorController_GetTarget",
+            "MotorController_GetState"
+        ],
+        "includes": [
+            "stdint.h"
+        ]
+    },
+    "violations": []
+}

@@ -1,0 +1,27 @@
+# Virtual Environment
+venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Generated Outputs
+outputs/
+analysis/outputs/
+remediation/outputs/
+
+# Temporary Files
+*.log
+
+# Secrets
+.env
+
+# Duplicate Projects
+HVAC_Project_Copy/
+
+# VS Code
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db

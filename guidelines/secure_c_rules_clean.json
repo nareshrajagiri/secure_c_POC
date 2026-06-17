@@ -1,0 +1,398 @@
+[
+    {
+        "rule_id": "PRE30-C",
+        "description": "Do not create a universal character name through concatenation"
+    },
+    {
+        "rule_id": "PRE31-C",
+        "description": "Avoid side effects in arguments to unsafe macros"
+    },
+    {
+        "rule_id": "PRE32-C",
+        "description": "Do not use preprocessor directives in invocations of function-like macros"
+    },
+    {
+        "rule_id": "DCL30-C",
+        "description": "Declare objects with appropriate storage durations"
+    },
+    {
+        "rule_id": "DCL31-C",
+        "description": "Declare identifiers before using them"
+    },
+    {
+        "rule_id": "DCL36-C",
+        "description": "Do not declare an identifier with conflicting linkage classifications"
+    },
+    {
+        "rule_id": "DCL37-C",
+        "description": "Do not declare or define a reserved identifier"
+    },
+    {
+        "rule_id": "DCL38-C",
+        "description": "Use the correct syntax when declaring a flexible array member"
+    },
+    {
+        "rule_id": "DCL39-C",
+        "description": "Avoid information leakage when passing a structure across a trust boundary 53"
+    },
+    {
+        "rule_id": "DCL40-C",
+        "description": "Do not create incompatible declarations of the same function or object"
+    },
+    {
+        "rule_id": "DCL41-C",
+        "description": "Do not declare variables inside a switch statement before the first case label 66"
+    },
+    {
+        "rule_id": "EXP30-C",
+        "description": "Do not depend on the order of evaluation for side effects"
+    },
+    {
+        "rule_id": "EXP32-C",
+        "description": "Do not access a volatile object through a nonvolatile reference"
+    },
+    {
+        "rule_id": "EXP33-C",
+        "description": "Do not read uninitialized memory"
+    },
+    {
+        "rule_id": "EXP34-C",
+        "description": "Do not dereference null pointers"
+    },
+    {
+        "rule_id": "EXP35-C",
+        "description": "Do not modify objects with temporary lifetime"
+    },
+    {
+        "rule_id": "EXP36-C",
+        "description": "Do not cast pointers into more strictly aligned pointer types"
+    },
+    {
+        "rule_id": "EXP37-C",
+        "description": "Call functions with the correct number and type of arguments"
+    },
+    {
+        "rule_id": "EXP39-C",
+        "description": "Do not access a variable through a pointer of an incompatible type"
+    },
+    {
+        "rule_id": "EXP40-C",
+        "description": "Do not modify constant objects"
+    },
+    {
+        "rule_id": "EXP42-C",
+        "description": "Do not compare padding data"
+    },
+    {
+        "rule_id": "EXP43-C",
+        "description": "Avoid undefined behavior when using restrict-qualified pointers"
+    },
+    {
+        "rule_id": "EXP44-C",
+        "description": "Do not rely on side effects in operands to sizeof, _Alignof, or _Generic"
+    },
+    {
+        "rule_id": "EXP45-C",
+        "description": "Do not perform assignments in selection statements"
+    },
+    {
+        "rule_id": "EXP46-C",
+        "description": "Do not use a bitwise operator with a Boolean-like operand"
+    },
+    {
+        "rule_id": "INT30-C",
+        "description": "Ensure that unsigned integer operations do not wrap"
+    },
+    {
+        "rule_id": "INT31-C",
+        "description": "Ensure that integer conversions do not result in lost or misinterpreted data"
+    },
+    {
+        "rule_id": "INT32-C",
+        "description": "Ensure that operations on signed integers do not result in overflow"
+    },
+    {
+        "rule_id": "INT33-C",
+        "description": "Ensure that division and remainder operations do not result in divide-by-zero"
+    },
+    {
+        "rule_id": "INT34-C",
+        "description": "Do not shift an expression by a negative number of bits or by greater than or"
+    },
+    {
+        "rule_id": "INT35-C",
+        "description": "Use correct integer precisions"
+    },
+    {
+        "rule_id": "INT36-C",
+        "description": "Converting a pointer to integer or integer to pointer"
+    },
+    {
+        "rule_id": "FLP30-C",
+        "description": "Do not use floating-point variables as loop counters"
+    },
+    {
+        "rule_id": "FLP32-C",
+        "description": "Prevent or detect domain and range errors in math functions"
+    },
+    {
+        "rule_id": "FLP34-C",
+        "description": "Ensure that floating-point conversions are within range of the new type"
+    },
+    {
+        "rule_id": "FLP36-C",
+        "description": "Preserve precision when converting integral values to floating-point type"
+    },
+    {
+        "rule_id": "FLP37-C",
+        "description": "Do not use object representations to compare floating-point values"
+    },
+    {
+        "rule_id": "ARR30-C",
+        "description": "Do not form or use out-of-bounds pointers or array subscripts"
+    },
+    {
+        "rule_id": "ARR32-C",
+        "description": "Ensure size arguments for variable length arrays are in a valid range"
+    },
+    {
+        "rule_id": "ARR36-C",
+        "description": "Do not subtract or compare two pointers that do not refer to the same array 207"
+    },
+    {
+        "rule_id": "ARR37-C",
+        "description": "Do not add or subtract an integer to a pointer to a non-array object"
+    },
+    {
+        "rule_id": "ARR38-C",
+        "description": "Guarantee that library functions do not form invalid pointers"
+    },
+    {
+        "rule_id": "ARR39-C",
+        "description": "Do not add or subtract a scaled integer to a pointer"
+    },
+    {
+        "rule_id": "STR30-C",
+        "description": "Do not attempt to modify string literals"
+    },
+    {
+        "rule_id": "STR31-C",
+        "description": "Guarantee that storage for strings has sufficient space for character"
+    },
+    {
+        "rule_id": "STR32-C",
+        "description": "Do not pass a non-null-terminated character sequence to a library function"
+    },
+    {
+        "rule_id": "STR34-C",
+        "description": "Cast characters to unsigned char before converting to larger integer sizes"
+    },
+    {
+        "rule_id": "STR37-C",
+        "description": "Arguments to character-handling functions must be representable as an"
+    },
+    {
+        "rule_id": "STR38-C",
+        "description": "Do not confuse narrow and wide character strings and functions"
+    },
+    {
+        "rule_id": "MEM30-C",
+        "description": "Do not access freed memory"
+    },
+    {
+        "rule_id": "MEM31-C",
+        "description": "Free dynamically allocated memory when no longer needed"
+    },
+    {
+        "rule_id": "MEM33-C",
+        "description": "Allocate and copy structures containing a flexible array member"
+    },
+    {
+        "rule_id": "MEM34-C",
+        "description": "Only free memory allocated dynamically"
+    },
+    {
+        "rule_id": "MEM35-C",
+        "description": "Allocate sufficient memory for an object"
+    },
+    {
+        "rule_id": "MEM36-C",
+        "description": "Do not modify the alignment of objects by calling realloc()"
+    },
+    {
+        "rule_id": "FIO30-C",
+        "description": "Exclude user input from format strings"
+    },
+    {
+        "rule_id": "FIO32-C",
+        "description": "Do not perform operations on devices that are only appropriate for files"
+    },
+    {
+        "rule_id": "FIO34-C",
+        "description": "Distinguish between characters read from a file and EOF or WEOF"
+    },
+    {
+        "rule_id": "FIO37-C",
+        "description": "Do not assume that fgets() or fgetws() returns a nonempty string when"
+    },
+    {
+        "rule_id": "FIO38-C",
+        "description": "Do not copy a FILE object"
+    },
+    {
+        "rule_id": "FIO39-C",
+        "description": "Do not alternately input and output from a stream without an intervening"
+    },
+    {
+        "rule_id": "FIO40-C",
+        "description": "Reset strings on fgets()  or fgetws() failure"
+    },
+    {
+        "rule_id": "FIO41-C",
+        "description": "Do not call getc(), putc(), getwc(), or putwc() with a stream argument that"
+    },
+    {
+        "rule_id": "FIO42-C",
+        "description": "Close files when they are no longer needed"
+    },
+    {
+        "rule_id": "FIO44-C",
+        "description": "Only use values for fsetpos() that are returned from fgetpos()"
+    },
+    {
+        "rule_id": "FIO45-C",
+        "description": "Avoid TOCTOU race conditions while accessing files"
+    },
+    {
+        "rule_id": "FIO46-C",
+        "description": "Do not access a closed file"
+    },
+    {
+        "rule_id": "FIO47-C",
+        "description": "Use valid format strings"
+    },
+    {
+        "rule_id": "ENV30-C",
+        "description": "Do not modify the object referenced by the return value of certain functions 326"
+    },
+    {
+        "rule_id": "ENV31-C",
+        "description": "Do not rely on an environment pointer following an operation that may"
+    },
+    {
+        "rule_id": "ENV32-C",
+        "description": "All exit handlers must return normally"
+    },
+    {
+        "rule_id": "ENV33-C",
+        "description": "Do not call system()"
+    },
+    {
+        "rule_id": "ENV34-C",
+        "description": "Do not store pointers returned by certain functions"
+    },
+    {
+        "rule_id": "SIG30-C",
+        "description": "Call only asynchronous-safe functions within signal handlers"
+    },
+    {
+        "rule_id": "SIG31-C",
+        "description": "Do not access shared objects in signal handlers"
+    },
+    {
+        "rule_id": "SIG34-C",
+        "description": "Do not call signal() from within interruptible signal handlers"
+    },
+    {
+        "rule_id": "SIG35-C",
+        "description": "Do not return from a computational exception signal handler"
+    },
+    {
+        "rule_id": "ERR30-C",
+        "description": "Set errno to zero before calling a library function known to set errno,"
+    },
+    {
+        "rule_id": "ERR32-C",
+        "description": "Do not rely on indeterminate values of errno"
+    },
+    {
+        "rule_id": "ERR33-C",
+        "description": "Detect and handle standard library errors"
+    },
+    {
+        "rule_id": "CON30-C",
+        "description": "Clean up thread-specific storage"
+    },
+    {
+        "rule_id": "CON31-C",
+        "description": "Do not destroy a mutex while it is locked"
+    },
+    {
+        "rule_id": "CON32-C",
+        "description": "Prevent data races when accessing bit-fields from multiple threads"
+    },
+    {
+        "rule_id": "CON33-C",
+        "description": "Avoid race conditions when using library functions"
+    },
+    {
+        "rule_id": "CON34-C",
+        "description": "Declare objects shared between threads with appropriate storage durations 418"
+    },
+    {
+        "rule_id": "CON35-C",
+        "description": "Avoid deadlock by locking in a predefined order"
+    },
+    {
+        "rule_id": "CON36-C",
+        "description": "Wrap functions that can spuriously wake up in a loop"
+    },
+    {
+        "rule_id": "CON37-C",
+        "description": "Do not call signal() in a multithreaded program"
+    },
+    {
+        "rule_id": "CON38-C",
+        "description": "Preserve thread safety and liveness when using condition variables"
+    },
+    {
+        "rule_id": "CON39-C",
+        "description": "Do not join or detach a thread that was previously joined or detached"
+    },
+    {
+        "rule_id": "CON40-C",
+        "description": "Do not refer to an atomic variable twice in an expression"
+    },
+    {
+        "rule_id": "CON41-C",
+        "description": "Wrap functions that can fail spuriously in a loop"
+    },
+    {
+        "rule_id": "MSC30-C",
+        "description": "Do not use the rand() function for generating pseudorandom numbers"
+    },
+    {
+        "rule_id": "MSC32-C",
+        "description": "Properly seed pseudorandom number generators"
+    },
+    {
+        "rule_id": "MSC33-C",
+        "description": "Do not pass invalid data to the asctime() function"
+    },
+    {
+        "rule_id": "MSC37-C",
+        "description": "Ensure that control never reaches the end of a non-void function"
+    },
+    {
+        "rule_id": "MSC38-C",
+        "description": "Do not treat a predefined identifier as an object if it might only"
+    },
+    {
+        "rule_id": "MSC39-C",
+        "description": "Do not call va_arg() on a va_list that has an indeterminate value"
+    },
+    {
+        "rule_id": "MSC40-C",
+        "description": "Do not violate constraints"
+    }
+]

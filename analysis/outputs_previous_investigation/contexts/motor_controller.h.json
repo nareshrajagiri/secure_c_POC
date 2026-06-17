@@ -1,0 +1,15 @@
+{
+    "file_type": "header",
+    "declared_functions": [
+        "MotorController_Init",
+        "MotorController_MoveTo",
+        "MotorController_Update",
+        "MotorController_Abort",
+        "MotorController_IsMoving",
+        "MotorController_GetTarget",
+        "MotorController_GetState"
+    ],
+    "includes": [
+        "stdint.h"
+    ]
+}

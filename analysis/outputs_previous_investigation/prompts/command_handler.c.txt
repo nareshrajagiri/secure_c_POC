@@ -1,0 +1,192 @@
+
+You are a Secure C Compliance Expert.
+
+Assign High confidence only when the violation
+is directly observable from source code.
+
+Do not assign High confidence
+based solely on assumptions
+about concurrency,
+interrupts,
+or external execution context.
+
+==================================================
+
+FILE NAME:
+command_handler.c
+
+==================================================
+
+SOURCE CODE:
+
+
+ #include "command_handler.h"
+#include "stm32f4xx_hal.h"
+extern UART_HandleTypeDef huart2;
+ 
+ 
+ 
+ uint8_t CommandHandler_PollCommand(uint8_t *cmd_out)
+{
+    uint8_t rx;
+    if (HAL_UART_Receive(&huart2, &rx, 1, 10) == HAL_OK)
+    {
+        if ((rx >= '0') && (rx <= '5'))
+        {
+            *cmd_out = (uint8_t)(rx - '0');
+            return 1U;
+        }
+    }
+    return 0U;
+}
+
+
+
+
+
+==================================================
+
+FILE CONTEXT:
+
+{'owned_functions': ['CommandHandler_PollCommand'], 'called_functions': [], 'peripherals': [], 'shared_states': ['huart2'], 'protected_regions': []}
+
+==================================================
+
+RELEVANT SECURE-C RULES:
+
+
+Rule ID: ERR33-C
+
+Category: ERR
+
+Description:
+Detect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.
+
+Fix:
+Check return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments.
+
+
+
+Rule ID: SIG31-C
+
+Category: SIG
+
+Description:
+Do not access or modify shared objects in signal handlers, as signal handlers can interrupt the main program flow at unpredictable points, leading to data races or inconsistent state if shared objects are accessed without synchronization.
+
+Fix:
+Use atomic operations or set a flag of type volatile sig_atomic_t in the signal handler and handle the shared object outside the handler to ensure safe access.
+
+
+
+Rule ID: STR37-C
+
+Category: STR
+
+Description:
+Arguments to character-handling functions, such as isalpha(), isdigit(), and tolower(), must be representable as an unsigned char value or be equal to EOF to avoid undefined behavior.
+
+Fix:
+Cast arguments to unsigned char before passing them to character-handling functions, ensuring the value is valid or EOF.
+
+
+
+Rule ID: CON33-C
+
+Category: CON
+
+Description:
+Avoid race conditions when using library functions by ensuring that shared resources are accessed in a thread-safe manner. Library functions are not always reentrant or thread-safe, so protect calls to such functions with appropriate synchronization mechanisms to prevent concurrent access that can lead to inconsistent or corrupted data.
+
+Fix:
+Use mutexes or disable interrupts around library function calls that access shared resources to ensure exclusive access, especially in embedded or RTOS-based STM32 applications.
+
+
+
+Rule ID: SIG30-C
+
+Category: SIG
+
+Description:
+Call only asynchronous-safe functions within signal handlers. Signal handlers must avoid calls to functions that are not guaranteed to be reentrant or async-signal-safe, as this can cause deadlocks, data corruption, or undefined behavior.
+
+Fix:
+Use only async-signal-safe functions inside signal handlers; communicate with main code via volatile flags or write to a pipe or queue for deferred processing.
+
+
+
+
+==================================================
+
+TASK:
+
+1. Identify only confirmed Secure C violations.
+
+    For every violation assign:
+
+    High
+        Clear violation directly visible in code
+
+    Medium
+        Strong evidence but some interpretation needed
+
+    Low
+        Weak evidence or uncertainty
+
+    Do NOT report potential issues,
+    hypothetical issues,
+    or assumptions.
+
+    Do not report a violation if the code already
+contains a validation, bounds check,
+error handling, or protection mechanism
+that satisfies the Secure C requirement.
+
+Only report violations that are directly observable
+from the source code itself.
+
+    If no violation is present,
+    return:
+
+    {
+        "violations": []
+    }
+2. Explain why each violation occurs.
+3. Suggest remediation.
+4. Return ONLY valid JSON.
+
+    Do not include:
+    - markdown
+    - explanations
+    - code fences
+    - introductory text
+
+Return strictly parsable JSON.
+
+For every violation include:
+
+- exact line number
+- exact code snippet
+- recommendation
+
+The snippet must be copied directly from the source code.
+
+Required JSON Format:
+
+{
+    "violations":
+    [
+        {
+            "rule_id":"",
+            "severity":"",
+            "confidence":"",
+            "issue":"",
+            "line":"",
+            "snippet":"",
+            "recommendation":""
+        }
+    ]
+}
+
+
+

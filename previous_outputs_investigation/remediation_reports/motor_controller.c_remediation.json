@@ -1,0 +1,14 @@
+{
+    "file": "motor_controller.c",
+    "original_violations": 5,
+    "rules": [
+        "CON33-C",
+        "DCL40-C",
+        "MSC40-C",
+        "MSC37-C",
+        "ERR33-C"
+    ],
+    "status": "remediated",
+    "timestamp": "2026-06-15T02:05:45.889140",
+    "output_file": "outputs/remediated_code/motor_controller.c"
+}

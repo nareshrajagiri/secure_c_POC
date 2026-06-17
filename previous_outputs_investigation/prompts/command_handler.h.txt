@@ -1,0 +1,187 @@
+
+You are a Secure C Compliance Expert.
+
+Assign High confidence only when the violation
+is directly observable from source code.
+
+Do not assign High confidence
+based solely on assumptions
+about concurrency,
+interrupts,
+or external execution context.
+
+==================================================
+
+FILE NAME:
+command_handler.h
+
+==================================================
+
+SOURCE CODE:
+
+
+ #ifndef COMMAND_HANDLER_H
+ #define COMMAND_HANDLER_H
+ #include <stdint.h>
+ #include <stddef.h>
+ #define CMD_INVALID   (0xFFU)
+ #define CMD_MIN       (0U)
+ #define CMD_MAX       (5U)
+ #define CMD_UART_BUF_LEN (8U)
+ typedef enum {
+     CMD_STATE_IDLE = 0,
+     CMD_STATE_COMMAND_RECEIVED,
+     CMD_STATE_VALIDATED
+ } CmdState_t;
+ uint8_t CommandHandler_PollCommand(uint8_t *cmd_out);
+
+ #endif /* COMMAND_HANDLER_H */
+
+
+
+==================================================
+
+FILE CONTEXT:
+
+{'file_type': 'header', 'declared_functions': ['CommandHandler_PollCommand'], 'includes': ['stdint.h', 'stddef.h']}
+
+==================================================
+
+RELEVANT SECURE-C RULES:
+
+
+Rule ID: STR37-C
+
+Category: STR
+
+Description:
+Arguments to character-handling functions, such as isalpha(), isdigit(), and tolower(), must be representable as an unsigned char value or be equal to EOF to avoid undefined behavior.
+
+Fix:
+Cast arguments to unsigned char before passing them to character-handling functions, ensuring the value is valid or EOF.
+
+
+
+Rule ID: SIG31-C
+
+Category: SIG
+
+Description:
+Do not access or modify shared objects in signal handlers, as signal handlers can interrupt the main program flow at unpredictable points, leading to data races or inconsistent state if shared objects are accessed without synchronization.
+
+Fix:
+Use atomic operations or set a flag of type volatile sig_atomic_t in the signal handler and handle the shared object outside the handler to ensure safe access.
+
+
+
+Rule ID: SIG30-C
+
+Category: SIG
+
+Description:
+Call only asynchronous-safe functions within signal handlers. Signal handlers must avoid calls to functions that are not guaranteed to be reentrant or async-signal-safe, as this can cause deadlocks, data corruption, or undefined behavior.
+
+Fix:
+Use only async-signal-safe functions inside signal handlers; communicate with main code via volatile flags or write to a pipe or queue for deferred processing.
+
+
+
+Rule ID: INT36-C
+
+Category: INT
+
+Description:
+Avoid converting pointers to integers or integers to pointers, as such conversions are implementation-defined and may lead to incorrect behavior or portability issues. Use uintptr_t or intptr_t from stdint.h for storing pointer values in integers when necessary.
+
+Fix:
+Use uintptr_t or intptr_t to safely cast pointers to integers and back, ensuring type correctness and portability.
+
+
+
+Rule ID: SIG34-C
+
+Category: SIG
+
+Description:
+Do not call signal() from within interruptible signal handlers as it can lead to undefined behavior and signal handling inconsistencies. Instead, use async-signal-safe functions to manage signal behavior inside handlers.
+
+Fix:
+Avoid invoking signal() inside signal handlers. Configure signal handlers once during initialization, and rely on flags or volatile variables to communicate between the handler and main code.
+
+
+
+
+==================================================
+
+TASK:
+
+1. Identify only confirmed Secure C violations.
+
+    For every violation assign:
+
+    High
+        Clear violation directly visible in code
+
+    Medium
+        Strong evidence but some interpretation needed
+
+    Low
+        Weak evidence or uncertainty
+
+    Do NOT report potential issues,
+    hypothetical issues,
+    or assumptions.
+
+    Do not report a violation if the code already
+contains a validation, bounds check,
+error handling, or protection mechanism
+that satisfies the Secure C requirement.
+
+Only report violations that are directly observable
+from the source code itself.
+
+    If no violation is present,
+    return:
+
+    {
+        "violations": []
+    }
+2. Explain why each violation occurs.
+3. Suggest remediation.
+4. Return ONLY valid JSON.
+
+    Do not include:
+    - markdown
+    - explanations
+    - code fences
+    - introductory text
+
+Return strictly parsable JSON.
+
+For every violation include:
+
+- exact line number
+- exact code snippet
+- recommendation
+
+The snippet must be copied directly from the source code.
+
+Required JSON Format:
+
+{
+    "violations":
+    [
+        {
+            "rule_id":"",
+            "severity":"",
+            "confidence":"",
+            "issue":"",
+            "line":"",
+            "snippet":"",
+            "recommendation":""
+        }
+    ]
+}
+
+
+

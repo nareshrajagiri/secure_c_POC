@@ -1,0 +1,37 @@
+[
+    {
+        "metadata": {
+            "rule_id": "CON33-C",
+            "category": "CON"
+        },
+        "content": "\nRule ID: CON33-C\n\nCategory: CON\n\nDescription:\nAvoid race conditions when using library functions by ensuring that shared resources are accessed in a thread-safe manner. Library functions are not always reentrant or thread-safe, so protect calls to such functions with appropriate synchronization mechanisms to prevent concurrent access that can lead to inconsistent or corrupted data.\n\nFix:\nUse mutexes or disable interrupts around library function calls that access shared resources to ensure exclusive access, especially in embedded or RTOS-based STM32 applications.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC40-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC40-C\n\nCategory: MSC\n\nDescription:\nDo not violate constraints imposed by the language or the implementation, such as accessing memory out of bounds, using uninitialized variables, or exceeding hardware limitations. Such violations can lead to undefined behavior, system crashes, or security vulnerabilities.\n\nFix:\nValidate all inputs, initialize variables before use, and enforce memory boundaries using static or dynamic checks appropriate for embedded environments.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "ERR33-C",
+            "category": "ERR"
+        },
+        "content": "\nRule ID: ERR33-C\n\nCategory: ERR\n\nDescription:\nDetect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.\n\nFix:\nCheck return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "DCL40-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL40-C\n\nCategory: DCL\n\nDescription:\nDo not create incompatible declarations of the same function or object. Incompatible declarations can lead to undefined behavior due to mismatched types, calling conventions, or storage durations. Ensure all declarations and definitions consistently use the same type, qualifier, and linkage.\n\nFix:\nEnsure all declarations and definitions of a function or object use exactly the same type, qualifiers, and linkage specifications. In STM32 projects, declare functions in header files with matching prototypes and include these headers consistently across source files.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "DCL31-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL31-C\n\nCategory: DCL\n\nDescription:\nAll identifiers must be declared before their first use to ensure proper type checking, avoid implicit declarations, and prevent undefined behavior.\n\nFix:\nDeclare all variables and functions before their first usage, typically at the beginning of a block or in appropriate header files.\n"
+    }
+]

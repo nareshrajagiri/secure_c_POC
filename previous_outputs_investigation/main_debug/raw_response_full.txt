@@ -1,0 +1,13 @@
+{
+    "violations": [
+        {
+            "rule_id": "DCL40-C",
+            "severity": "High",
+            "confidence": "High",
+            "issue": "Incompatible or redundant declarations of the same object (huart2, hadc1, htim3) as both file-scope definitions and extern declarations in the same file.",
+            "line": "27-30",
+            "snippet": "UART_HandleTypeDef huart2;\n /* Prototypes */\n void SystemClock_Config(void);\n static void MX_GPIO_Init(void);\n static void MX_ADC1_Init(void);\n static void MX_USART2_UART_Init(void);\n //HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);\n\n static void MX_TIM3_Init(void);\n /* HAL handles (externally instantiated/linked) */\n extern UART_HandleTypeDef huart2;\n extern ADC_HandleTypeDef hadc1;\n extern TIM_HandleTypeDef htim3;",
+            "recommendation": "Remove the redundant extern declarations for huart2, hadc1, and htim3 in this file, as they are already defined at file scope. Only use extern in other files that do not define these objects."
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+[
+    {
+        "metadata": {
+            "rule_id": "FLP32-C",
+            "category": "FLP"
+        },
+        "content": "\nRule ID: FLP32-C\n\nCategory: FLP\n\nDescription:\nPrevent or detect domain and range errors in mathematical functions by validating input arguments before calling floating-point library functions, ensuring arguments fall within expected domains to avoid undefined behavior or erroneous results.\n\nFix:\nValidate inputs explicitly prior to math function calls; for example, check conditions such as x >= 0 before calling sqrt(x), and handle out-of-range inputs gracefully.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "FLP34-C",
+            "category": "FLP"
+        },
+        "content": "\nRule ID: FLP34-C\n\nCategory: FLP\n\nDescription:\nEnsure that floating-point conversions are within the range of the target type to prevent overflow, underflow, or undefined behavior. Verify that the source value is within the representable limits of the destination float or double type before conversion.\n\nFix:\nBefore casting, check if the floating-point value is within the target type's min and max range using predefined constants or limits, and handle out-of-range cases appropriately to avoid undefined behavior.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "FLP36-C",
+            "category": "FLP"
+        },
+        "content": "\nRule ID: FLP36-C\n\nCategory: FLP\n\nDescription:\nPreserve the precision of integral values when converting to floating-point types by ensuring the floating-point type has sufficient precision to represent the integral value exactly or by using an intermediate type or method to avoid precision loss.\n\nFix:\nUse a floating-point type with enough precision (e.g., double instead of float) or cast integral values to a wider type before conversion to floating-point to avoid precision loss in embedded C STM32 projects.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "ARR38-C",
+            "category": "ARR"
+        },
+        "content": "\nRule ID: ARR38-C\n\nCategory: ARR\n\nDescription:\nEnsure that pointers returned by library functions are valid and do not point outside the allocated object or become invalid due to overflow, underflow, or arithmetic on pointers, to prevent undefined behavior and potential security vulnerabilities.\n\nFix:\nValidate pointers returned by library functions before use; check that they fall within the bounds of the allocated memory region and avoid arithmetic that produces pointers outside valid ranges.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "FLP37-C",
+            "category": "FLP"
+        },
+        "content": "\nRule ID: FLP37-C\n\nCategory: FLP\n\nDescription:\nDo not use object representations (e.g., memcmp, bitwise comparison) to compare floating-point values as this can produce incorrect results due to different bit patterns representing the same value or due to floating-point precision and rounding errors.\n\nFix:\nCompare floating-point values using an absolute error tolerance: use fabs(a - b) < epsilon, where epsilon is a small value appropriate for the application's precision requirements.\n"
+    }
+]

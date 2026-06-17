@@ -1,0 +1,37 @@
+[
+    {
+        "metadata": {
+            "rule_id": "DCL31-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL31-C\n\nCategory: DCL\n\nDescription:\nAll identifiers must be declared before their first use to ensure proper type checking, avoid implicit declarations, and prevent undefined behavior.\n\nFix:\nDeclare all variables and functions before their first usage, typically at the beginning of a block or in appropriate header files.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "DCL40-C",
+            "category": "DCL"
+        },
+        "content": "\nRule ID: DCL40-C\n\nCategory: DCL\n\nDescription:\nDo not create incompatible declarations of the same function or object. Incompatible declarations can lead to undefined behavior due to mismatched types, calling conventions, or storage durations. Ensure all declarations and definitions consistently use the same type, qualifier, and linkage.\n\nFix:\nEnsure all declarations and definitions of a function or object use exactly the same type, qualifiers, and linkage specifications. In STM32 projects, declare functions in header files with matching prototypes and include these headers consistently across source files.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC40-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC40-C\n\nCategory: MSC\n\nDescription:\nDo not violate constraints imposed by the language or the implementation, such as accessing memory out of bounds, using uninitialized variables, or exceeding hardware limitations. Such violations can lead to undefined behavior, system crashes, or security vulnerabilities.\n\nFix:\nValidate all inputs, initialize variables before use, and enforce memory boundaries using static or dynamic checks appropriate for embedded environments.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC38-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC38-C\n\nCategory: MSC\n\nDescription:\nDo not treat a predefined identifier as an object if it might only be defined as a macro or a compilerIntrinsic, to avoid undefined behavior or conflicts.\n\nFix:\nAvoid declaring variables or objects with names matching predefined identifiers; use distinct names or enclosed preprocessing directives to differentiate.\n"
+    },
+    {
+        "metadata": {
+            "rule_id": "MSC37-C",
+            "category": "MSC"
+        },
+        "content": "\nRule ID: MSC37-C\n\nCategory: MSC\n\nDescription:\nEnsure that control never reaches the end of a non-void function without an explicit return statement, to prevent undefined behavior and ensure deterministic function outcomes.\n\nFix:\nAdd an explicit return statement with an appropriate value before the end of all non-void functions.\n"
+    }
+]

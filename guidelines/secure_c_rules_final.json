@@ -1,0 +1,596 @@
+[
+    {
+        "rule_id": "PRE30-C",
+        "category": "PRE",
+        "description": "Do not create a universal character name (UCN) through string literal concatenation because it can lead to unexpected interpretation of characters and portability issues. Always use explicit UCNs in a single literal.",
+        "fix": "Use a single universal character name literal instead of concatenating multiple strings; e.g., write \"\\uXXXX\" in one literal rather than splitting it."
+    },
+    {
+        "rule_id": "PRE31-C",
+        "category": "PRE",
+        "description": "Avoid using arguments with side effects in unsafe macros, as macros may evaluate arguments multiple times, leading to unexpected behavior and potential errors.",
+        "fix": "Assign expressions with side effects to temporary variables before passing them to macros, ensuring each argument is evaluated only once."
+    },
+    {
+        "rule_id": "PRE32-C",
+        "category": "PRE",
+        "description": "Do not use preprocessor directives (such as #if, #ifdef, #ifndef) within the arguments of function-like macros, as this can lead to unexpected behavior and code that is difficult to debug and maintain.",
+        "fix": "Perform conditional checks outside the macro invocation and pass only fully resolved arguments to the function-like macro."
+    },
+    {
+        "rule_id": "DCL30-C",
+        "category": "DCL",
+        "description": "Ensure that objects are declared with storage durations appropriate to their intended use and lifetime. Local variables default to automatic storage duration, static and global variables have static duration, and dynamic allocation should be managed carefully. Avoid using variables with a broader or longer storage duration than necessary to minimize resource usage and potential bugs.",
+        "fix": "Declare variables with the narrowest appropriate storage duration; use automatic storage for temporary variables and static or global storage only when persistence is required."
+    },
+    {
+        "rule_id": "DCL31-C",
+        "category": "DCL",
+        "description": "All identifiers must be declared before their first use to ensure proper type checking, avoid implicit declarations, and prevent undefined behavior.",
+        "fix": "Declare all variables and functions before their first usage, typically at the beginning of a block or in appropriate header files."
+    },
+    {
+        "rule_id": "DCL36-C",
+        "category": "DCL",
+        "description": "Do not declare an identifier with conflicting linkage classifications, as this leads to undefined behavior and linkage errors. Ensure all declarations of the same identifier within and across translation units have consistent linkage specifications.",
+        "fix": "Ensure that all declarations of an identifier use the same linkage (e.g., all extern or all static) across all files, avoiding mixing linkage types for the same name."
+    },
+    {
+        "rule_id": "DCL37-C",
+        "category": "DCL",
+        "description": "Do not declare or define identifiers reserved for use by the implementation, such as those beginning with an underscore followed by an uppercase letter or another underscore, to avoid conflicts with standard library or compiler internals.",
+        "fix": "Avoid using identifiers starting with underscores or names reserved by the compiler; use clear, unique names without leading underscores for your variables and functions."
+    },
+    {
+        "rule_id": "DCL38-C",
+        "category": "DCL",
+        "description": "Ensure the correct syntax is used when declaring a flexible array member in a struct. The flexible array member must be the last element in the structure and declared with empty square brackets '[]' without a specified size. This allows the array to dynamically accommodate additional elements beyond the fixed part of the structure.",
+        "fix": "Declare the flexible array member as the last element of the struct using empty brackets, e.g., 'int data[];', and avoid specifying an array size."
+    },
+    {
+        "rule_id": "DCL39-C",
+        "category": "DCL",
+        "description": "Avoid unintentional information leakage when passing structures across trust boundaries by ensuring that only intended fields are exposed and sensitive data is properly sanitized or omitted.",
+        "fix": "Define and use sanitized versions of structures containing only safe fields for cross-boundary communication; zero out or exclude sensitive fields before passing data."
+    },
+    {
+        "rule_id": "DCL40-C",
+        "category": "DCL",
+        "description": "Do not create incompatible declarations of the same function or object. Incompatible declarations can lead to undefined behavior due to mismatched types, calling conventions, or storage durations. Ensure all declarations and definitions consistently use the same type, qualifier, and linkage.",
+        "fix": "Ensure all declarations and definitions of a function or object use exactly the same type, qualifiers, and linkage specifications. In STM32 projects, declare functions in header files with matching prototypes and include these headers consistently across source files."
+    },
+    {
+        "rule_id": "DCL41-C",
+        "category": "DCL",
+        "description": "Do not declare variables inside a switch statement before the first case label. Variables declared before the first case label have scope that spans the entire switch block, which can cause unexpected behavior or compiler errors. Always place variable declarations within case blocks or outside the switch to ensure correct scope and initialization order.",
+        "fix": "Move all variable declarations to be either before the switch statement or inside individual case labels using braces to limit scope."
+    },
+    {
+        "rule_id": "EXP30-C",
+        "category": "EXP",
+        "description": "Do not depend on the order of evaluation for side effects, because the C standard does not specify the order in which expressions are evaluated. Relying on a specific order can lead to unpredictable behavior and bugs.",
+        "fix": "Separate expressions with side effects into distinct statements to ensure a defined order of execution."
+    },
+    {
+        "rule_id": "EXP32-C",
+        "category": "EXP",
+        "description": "Do not access a volatile object through a nonvolatile reference. Accessing volatile objects through nonvolatile pointers or references can cause the compiler to optimize away necessary reads or writes, leading to incorrect program behavior, especially in embedded systems where volatile objects often relate to hardware registers or interrupt-related variables.",
+        "fix": "Use a volatile-qualified pointer or reference when accessing volatile objects to ensure proper read/write operations. For example, declare pointers as 'volatile type *' when handling hardware registers."
+    },
+    {
+        "rule_id": "EXP33-C",
+        "category": "EXP",
+        "description": "Do not read uninitialized memory, as reading uninitialized variables leads to undefined behavior and may result in unpredictable program operation or security vulnerabilities.",
+        "fix": "Always initialize variables before use, preferably by zeroing memory or assigning a known initial value immediately after declaration."
+    },
+    {
+        "rule_id": "EXP34-C",
+        "category": "EXP",
+        "description": "Dereferencing a null pointer results in undefined behavior and likely program crash. Always ensure pointers are not null before dereferencing to prevent runtime errors and system instability.",
+        "fix": "Before dereferencing a pointer, check if it is not NULL; for example, use 'if (ptr != NULL) { /* safe to dereference */ }' to avoid null pointer dereference."
+    },
+    {
+        "rule_id": "EXP35-C",
+        "category": "EXP",
+        "description": "Do not modify objects with temporary lifetime. Objects with automatic storage duration (such as function parameters passed by value or local temporaries) should not be modified as this leads to undefined behavior or logic errors, especially when the object's lifetime ends immediately after the expression.",
+        "fix": "Avoid modifying temporary objects; instead, assign the temporary to a named variable and modify that variable."
+    },
+    {
+        "rule_id": "EXP36-C",
+        "category": "EXP",
+        "description": "Do not cast pointers to pointer types with stricter alignment requirements than the original pointer. Such casts can cause undefined behavior due to misaligned accesses on architectures that enforce alignment and can lead to runtime faults or performance penalties.",
+        "fix": "Ensure the original pointer is properly aligned or use memcpy to safely copy data instead of casting to a stricter aligned pointer type."
+    },
+    {
+        "rule_id": "EXP37-C",
+        "category": "EXP",
+        "description": "Ensure functions are called with the correct number and type of arguments as declared in their prototype to prevent undefined behavior and potential security issues.",
+        "fix": "Always use function prototypes and verify that calls match the declared parameter types and counts; enable compiler warnings to detect mismatches early."
+    },
+    {
+        "rule_id": "EXP39-C",
+        "category": "EXP",
+        "description": "Do not access a variable through a pointer of an incompatible type as this can cause undefined behavior due to alignment issues, incorrect data interpretation, or violations of the strict aliasing rule. Always ensure pointer types match the type of the data being accessed.",
+        "fix": "Use a pointer of the correct type for the variable, or use memcpy to safely access the data without violating strict aliasing rules."
+    },
+    {
+        "rule_id": "EXP40-C",
+        "category": "EXP",
+        "description": "Do not modify objects defined as constant as their modification results in undefined behavior and can lead to unpredictable program execution.",
+        "fix": "Ensure all variables declared as const are not modified; use non-const variables if modifications are required."
+    },
+    {
+        "rule_id": "EXP42-C",
+        "category": "EXP",
+        "description": "Do not compare padding data as it may contain indeterminate values leading to undefined behavior and security vulnerabilities.",
+        "fix": "Avoid including padding bytes in comparisons; only compare initialized and meaningful data fields explicitly."
+    },
+    {
+        "rule_id": "EXP43-C",
+        "category": "EXP",
+        "description": "Avoid undefined behavior caused by violating the restrict pointer aliasing rules. When using restrict-qualified pointers, ensure that the pointers do not alias to overlapping memory regions in the same scope, as this can lead to unpredictable results and undefined behavior.",
+        "fix": "Ensure restrict-qualified pointers reference distinct, non-overlapping memory regions; do not allow multiple restrict pointers to point to the same memory during their lifetime."
+    },
+    {
+        "rule_id": "EXP44-C",
+        "category": "EXP",
+        "description": "Do not rely on side effects in operands to sizeof, _Alignof, or _Generic. These operators do not evaluate their operands in a way that guarantees execution of side effects, which can lead to unpredictable or unintended program behavior.",
+        "fix": "Avoid writing expressions with side effects inside sizeof, _Alignof, or _Generic. Instead, separate side-effect causing code into a distinct statement before using these operators."
+    },
+    {
+        "rule_id": "EXP45-C",
+        "category": "EXP",
+        "description": "Do not perform assignment operations within selection statements such as if, while, or for conditions. Assignments inside selection statements can lead to readability issues, introduce subtle bugs, and make the code harder to maintain and debug. Instead, perform all assignments separately before the selection statement.",
+        "fix": "Assign values to variables before the selection statements and use only expressions in the conditions; for example, replace 'if ((x = func()) != 0)' with 'x = func(); if (x != 0)'."
+    },
+    {
+        "rule_id": "EXP46-C",
+        "category": "EXP",
+        "description": "Do not use bitwise operators (&, |, ^) with Boolean-like operands as they can cause unexpected results; use logical operators (&&, ||, !) instead for Boolean logic.",
+        "fix": "Replace bitwise operators with logical operators when working with Boolean expressions, e.g., use '&&' instead of '&'."
+    },
+    {
+        "rule_id": "INT30-C",
+        "category": "INT",
+        "description": "Ensure that unsigned integer operations do not wrap around, as wrapping can lead to unexpected behavior and security vulnerabilities. Carefully check arithmetic operations for potential overflow or underflow conditions and handle them appropriately.",
+        "fix": "Use compiler built-in functions or manual checks to detect potential overflow before performing arithmetic; for example, check if (UINT_MAX - a < b) before a + b, and use safe types or wider data types if necessary."
+    },
+    {
+        "rule_id": "INT31-C",
+        "category": "INT",
+        "description": "Ensure that integer conversions maintain the integrity of the data by preventing loss or misinterpretation due to overflow, truncation, or sign changes. Carefully perform explicit casts and validate ranges before conversion to avoid unexpected behavior.",
+        "fix": "Before casting integers, verify that the value fits within the target type\u2019s range; use explicit range checks and static_asserts if possible to ensure safe conversions."
+    },
+    {
+        "rule_id": "INT32-C",
+        "category": "INT",
+        "description": "Ensure that operations on signed 32-bit integers do not cause overflow or underflow by verifying that the result remains within the range representable by int32_t before performing the operation.",
+        "fix": "Before performing arithmetic on int32_t variables, check that the result will not exceed INT32_MAX or fall below INT32_MIN; if overflow is possible, handle it appropriately or use larger data types."
+    },
+    {
+        "rule_id": "INT33-C",
+        "category": "INT",
+        "description": "Ensure that all division and remainder operations explicitly check that the divisor is not zero to prevent divide-by-zero errors, which can lead to undefined behavior or system crashes.",
+        "fix": "Before performing division or modulus operations, add a conditional check to verify that the divisor is not zero; if zero, handle the error appropriately (e.g., return an error code or skip the operation)."
+    },
+    {
+        "rule_id": "INT34-C",
+        "category": "INT",
+        "description": "Do not shift an expression by a negative number of bits or by a number of bits greater than or equal to the width of the promoted left operand. Doing so results in undefined behavior.",
+        "fix": "Ensure the shift count is non-negative and less than the width of the operand by adding a check before the shift operation."
+    },
+    {
+        "rule_id": "INT35-C",
+        "category": "INT",
+        "description": "Use integer types with precise widths to ensure consistent behavior across platforms. Avoid assumptions about the size of standard integer types (e.g., int, long) which may vary, leading to portability and correctness issues.",
+        "fix": "Use fixed-width integer types from <stdint.h> such as int32_t, uint16_t, etc., to explicitly specify the integer precision required."
+    },
+    {
+        "rule_id": "INT36-C",
+        "category": "INT",
+        "description": "Avoid converting pointers to integers or integers to pointers, as such conversions are implementation-defined and may lead to incorrect behavior or portability issues. Use uintptr_t or intptr_t from stdint.h for storing pointer values in integers when necessary.",
+        "fix": "Use uintptr_t or intptr_t to safely cast pointers to integers and back, ensuring type correctness and portability."
+    },
+    {
+        "rule_id": "FLP30-C",
+        "category": "FLP",
+        "description": "Do not use floating-point variables as loop counters. Floating-point arithmetic can introduce rounding errors, which can lead to unpredictable loop iteration counts or infinite loops. Instead, use integer loop counters and convert the counter to a floating-point value inside the loop if needed.",
+        "fix": "Use an integer variable as the loop counter and convert it to float inside the loop for calculations."
+    },
+    {
+        "rule_id": "FLP32-C",
+        "category": "FLP",
+        "description": "Prevent or detect domain and range errors in mathematical functions by validating input arguments before calling floating-point library functions, ensuring arguments fall within expected domains to avoid undefined behavior or erroneous results.",
+        "fix": "Validate inputs explicitly prior to math function calls; for example, check conditions such as x >= 0 before calling sqrt(x), and handle out-of-range inputs gracefully."
+    },
+    {
+        "rule_id": "FLP34-C",
+        "category": "FLP",
+        "description": "Ensure that floating-point conversions are within the range of the target type to prevent overflow, underflow, or undefined behavior. Verify that the source value is within the representable limits of the destination float or double type before conversion.",
+        "fix": "Before casting, check if the floating-point value is within the target type's min and max range using predefined constants or limits, and handle out-of-range cases appropriately to avoid undefined behavior."
+    },
+    {
+        "rule_id": "FLP36-C",
+        "category": "FLP",
+        "description": "Preserve the precision of integral values when converting to floating-point types by ensuring the floating-point type has sufficient precision to represent the integral value exactly or by using an intermediate type or method to avoid precision loss.",
+        "fix": "Use a floating-point type with enough precision (e.g., double instead of float) or cast integral values to a wider type before conversion to floating-point to avoid precision loss in embedded C STM32 projects."
+    },
+    {
+        "rule_id": "FLP37-C",
+        "category": "FLP",
+        "description": "Do not use object representations (e.g., memcmp, bitwise comparison) to compare floating-point values as this can produce incorrect results due to different bit patterns representing the same value or due to floating-point precision and rounding errors.",
+        "fix": "Compare floating-point values using an absolute error tolerance: use fabs(a - b) < epsilon, where epsilon is a small value appropriate for the application's precision requirements."
+    },
+    {
+        "rule_id": "ARR30-C",
+        "category": "ARR",
+        "description": "Do not form or use pointers or array subscripts that point outside the bounds of the intended object. Accessing memory outside array bounds causes undefined behavior and may lead to system instability or security vulnerabilities.",
+        "fix": "Ensure all pointer arithmetic and array indices remain within valid bounds by validating indices against array sizes before access."
+    },
+    {
+        "rule_id": "ARR32-C",
+        "category": "ARR",
+        "description": "Ensure size arguments for variable length arrays (VLAs) are within a valid range to prevent undefined behavior caused by zero or negative sizes and avoid potential buffer overflows or memory corruption.",
+        "fix": "Validate size arguments before VLA declaration; for example, check 'if (size > 0 && size <= MAX_SIZE) { int arr[size]; }' to ensure the size is positive and within a predefined safe limit."
+    },
+    {
+        "rule_id": "ARR36-C",
+        "category": "ARR",
+        "description": "Do not subtract or compare two pointers unless they both point into the same array or one past the end of the same array. Pointer subtraction or comparison between pointers to different arrays or unrelated memory locations leads to undefined behavior.",
+        "fix": "Ensure pointers are within the same array before subtracting or comparing them by validating their range or maintaining context of array boundaries."
+    },
+    {
+        "rule_id": "ARR37-C",
+        "category": "ARR",
+        "description": "Do not perform pointer arithmetic (addition or subtraction) on pointers that do not point to elements of an array. Pointer arithmetic is only defined for pointers to array elements; applying it to pointers to non-array objects leads to undefined behavior.",
+        "fix": "Use pointers only with arrays for arithmetic operations; if working with single objects, avoid pointer arithmetic and use direct variable access instead."
+    },
+    {
+        "rule_id": "ARR38-C",
+        "category": "ARR",
+        "description": "Ensure that pointers returned by library functions are valid and do not point outside the allocated object or become invalid due to overflow, underflow, or arithmetic on pointers, to prevent undefined behavior and potential security vulnerabilities.",
+        "fix": "Validate pointers returned by library functions before use; check that they fall within the bounds of the allocated memory region and avoid arithmetic that produces pointers outside valid ranges."
+    },
+    {
+        "rule_id": "ARR39-C",
+        "category": "ARR",
+        "description": "Do not add or subtract a scaled integer (i.e., an integer multiplied by a size factor) directly to a pointer, as this can cause incorrect pointer arithmetic leading to undefined behavior. Pointer arithmetic should be performed using unscaled integers, relying on the compiler's automatic scaling based on the pointer type.",
+        "fix": "Use the pointer addition syntax supported by C, e.g., ptr + n, where n is an unscaled integer; avoid manually scaling the offset by sizeof pointed-to type."
+    },
+    {
+        "rule_id": "STR30-C",
+        "category": "STR",
+        "description": "Do not attempt to modify string literals. String literals are typically stored in read-only memory, and modifying them results in undefined behavior, which can lead to program crashes or security vulnerabilities.",
+        "fix": "Copy string literals into a modifiable character array before attempting any modifications."
+    },
+    {
+        "rule_id": "STR31-C",
+        "category": "STR",  
+        "description": "Guarantee that storage for strings has sufficient space for the characters in the string plus the null terminator to prevent buffer overflows and memory corruption.",
+        "fix": "Always allocate string buffers with enough size for all characters plus one extra byte for the null terminator (e.g., char buf[size + 1];)."
+    },
+    {
+        "rule_id": "STR32-C",
+        "category": "STR",
+        "description": "Do not pass character sequences that are not null-terminated to library functions that expect null-terminated strings. Such functions rely on the terminating null character '\\0' to determine the end of the string. Passing non-null-terminated sequences can cause buffer overruns, undefined behavior, and security vulnerabilities.",
+        "fix": "Ensure all strings are null-terminated before passing them to library functions. For fixed-size buffers, explicitly add '\\0' at the end after data population, e.g., buffer[size - 1] = '\\0';"
+    },
+    {
+        "rule_id": "STR34-C",
+        "category": "STR",
+        "description": "When converting character types to larger integer types, always cast the character to unsigned char first. This prevents sign extension issues due to potential negative values in plain char and ensures consistent, predictable results across platforms.",
+        "fix": "Cast characters as (unsigned char) before promoting to larger integer types, e.g., (unsigned int)(unsigned char)c."
+    },
+    {
+        "rule_id": "STR37-C",
+        "category": "STR",
+        "description": "Arguments to character-handling functions, such as isalpha(), isdigit(), and tolower(), must be representable as an unsigned char value or be equal to EOF to avoid undefined behavior.",
+        "fix": "Cast arguments to unsigned char before passing them to character-handling functions, ensuring the value is valid or EOF."
+    },
+    {
+        "rule_id": "STR38-C",
+        "category": "STR",
+        "description": "Do not confuse narrow (char-based) and wide (wchar_t-based) character strings and functions. Using the wrong function or data type leads to undefined behavior, data corruption, or incorrect results. Ensure consistent use of narrow or wide character types and their corresponding standard library functions throughout the code.",
+        "fix": "Use matching types and functions: for narrow strings use 'char' and functions like strcpy(), strcmp(); for wide strings use 'wchar_t' and functions like wcscpy(), wcscmp(). Avoid mixing them."
+    },
+    {
+        "rule_id": "MEM30-C",
+        "category": "MEM",
+        "description": "Do not access memory after it has been freed. Accessing freed memory leads to undefined behavior, including data corruption, crashes, and security vulnerabilities.",
+        "fix": "After freeing a pointer, immediately set it to NULL and check pointers for NULL before use."
+    },
+    {
+        "rule_id": "MEM31-C",
+        "category": "MEM",
+        "description": "Free dynamically allocated memory when it is no longer needed to avoid memory leaks, which can lead to resource exhaustion, degraded system performance, and program instability.",
+        "fix": "After finishing the use of dynamically allocated memory, call free() to release it back to the system. For example: if (ptr) { free(ptr); ptr = NULL; }"
+    },
+    {
+        "rule_id": "MEM33-C",
+        "category": "MEM",
+        "description": "When allocating and copying structures that contain a flexible array member, ensure that enough memory is allocated for both the fixed portion of the structure and the flexible array. Avoid shallow copying, which can lead to buffer overflows or undefined behavior.",
+        "fix": "Allocate memory using sizeof(struct) + (number_of_elements * sizeof(flexible_member_type)); then copy the fixed fields and manually copy the flexible array data."
+    },
+    {
+        "rule_id": "MEM34-C",
+        "category": "MEM",
+        "description": "Only call free() on pointers that have been dynamically allocated using memory allocation functions such as malloc(), calloc(), or realloc(). Do not attempt to free memory that was not allocated dynamically, such as memory on the stack, statically allocated memory, or pointers to string literals.",
+        "fix": "Ensure that only pointers returned by malloc(), calloc(), or realloc() are passed to free(). Avoid freeing pointers to stack, static, or constant memory to prevent undefined behavior."
+    },
+    {
+        "rule_id": "MEM35-C",
+        "category": "MEM",
+        "description": "Ensure that memory allocation requests provide sufficient size to accommodate the entire object, including all necessary fields, to prevent buffer overflows and memory corruption.",
+        "fix": "Use 'sizeof' operator to compute the exact size required, e.g., malloc(sizeof(type)) or malloc(n * sizeof(type)), to allocate sufficient memory."
+    },
+    {
+        "rule_id": "MEM36-C",
+        "category": "MEM",
+        "description": "Do not modify the alignment of objects by calling realloc(). Using realloc() may change the alignment of the memory block, which can lead to undefined behavior, especially for objects requiring strict alignment. Instead, allocate new memory with proper alignment and copy the data manually.",
+        "fix": "Allocate new memory with the required alignment using aligned allocation functions or over-allocate and align manually, then copy existing data before freeing the old pointer instead of using realloc()."
+    },
+    {
+        "rule_id": "FIO30-C",
+        "category": "FIO",
+        "description": "Do not use user-supplied input as the format string in formatting functions to avoid format string vulnerabilities such as buffer overflows or information leaks.",
+        "fix": "Use a fixed format string and pass user input as arguments, e.g., printf(\"%s\", user_input); instead of printf(user_input);"
+    },
+    {
+        "rule_id": "FIO32-C",
+        "category": "FIO",
+        "description": "Do not perform file-specific operations, such as seeking or truncating, on devices or streams that do not support such operations. Use appropriate device-specific APIs or ensure the object supports the intended file operation to prevent undefined behavior.",
+        "fix": "Check that the device supports the intended file operation before performing it; use device-specific functions for non-file devices instead of standard file operations like fseek or truncate."
+    },
+    {
+        "rule_id": "FIO34-C",
+        "category": "FIO",
+        "description": "Ensure that characters read from a file are properly distinguished from the special EOF or WEOF values returned by file input functions to prevent incorrect processing or infinite loops.",
+        "fix": "Store the result of file input functions in an int variable and compare it explicitly to EOF or WEOF before processing as a character."
+    },
+    {
+        "rule_id": "FIO37-C",
+        "category": "FIO",
+        "description": "Do not assume that fgets() or fgetws() returns a nonempty string when reading input. They may return NULL on error or end-of-file, or an empty string if no characters were read.",
+        "fix": "Check the return value of fgets() or fgetws() for NULL before processing the input buffer to ensure data was actually read."
+    },
+    {
+        "rule_id": "FIO38-C",
+        "category": "FIO",
+        "description": "Do not copy a FILE object, as copying FILE structures leads to undefined behavior due to internal buffering and state information that cannot be duplicated safely.",
+        "fix": "Use file pointers to reference the same FILE object instead of copying FILE structures; pass FILE* around and avoid assignments or memcpy of FILE objects."
+    },
+    {
+        "rule_id": "FIO39-C",
+        "category": "FIO",
+        "description": "Do not alternately input and output from a stream without an intervening fflush(), fseek(), fsetpos(), or rewind() to ensure the stream's internal buffer is properly synchronized.",
+        "fix": "Insert fflush(), fseek(), fsetpos(), or rewind() between input and output operations on the same stream before switching the operation mode."
+    },
+    {
+        "rule_id": "FIO40-C",
+        "category": "FIO",
+        "description": "When fgets() or fgetws() fails, the target string may contain partial or uninitialized data. To avoid undefined behavior or data leakage, reset or clear the string buffer upon failure before further use.",
+        "fix": "After fgets() or fgetws() call, check for NULL return. If NULL, set the first character of the buffer to '\\0' to reset the string."
+    },
+    {
+        "rule_id": "FIO41-C",
+        "category": "FIO",
+        "description": "Do not call getc(), putc(), getwc(), or putwc() with a stream argument that is not open for reading or writing respectively, or that is NULL, as this leads to undefined behavior.",
+        "fix": "Ensure the FILE* stream is properly opened in the correct mode before calling getc(), putc(), getwc(), or putwc(), and verify the pointer is not NULL."
+    },
+    {
+        "rule_id": "FIO42-C",
+        "category": "FIO",
+        "description": "Files opened by the program must be properly closed when they are no longer needed to avoid resource leaks, data corruption, or unexpected behavior.",
+        "fix": "Call fclose() on all opened FILE pointers as soon as file operations are complete to release system resources."
+    },
+    {
+        "rule_id": "FIO44-C",
+        "category": "FIO",
+        "description": "Only use values for fsetpos() that have been obtained from a prior call to fgetpos() on the same file stream, ensuring that the position indicator is valid and consistent.",
+        "fix": "Store the position using fpos_t pos; fgetpos(file, &pos); then restore it with fsetpos(file, &pos); avoid using arbitrary or manually created position values."
+    },
+    {
+        "rule_id": "FIO45-C",
+        "category": "FIO",
+        "description": "Avoid Time-Of-Check to Time-Of-Use (TOCTOU) race conditions when accessing files. Such race conditions occur when a file's state changes between checking its attributes and acting upon it, potentially leading to security vulnerabilities or inconsistent behavior.",
+        "fix": "Perform file operations using a single atomic step when possible (e.g., open with flags that create or check conditions atomically), avoid separate existence checks before file access, and use file descriptors or handles rather than reopening files."
+    },
+    {
+        "rule_id": "FIO46-C",
+        "category": "FIO",
+        "description": "Do not access a file after it has been closed. Accessing a closed file leads to undefined behavior, possible data corruption, or program crashes. Always ensure the file pointer is valid and open before performing file operations.",
+        "fix": "Set the FILE pointer to NULL immediately after fclose(), and check for NULL before any subsequent file access."
+    },
+    {
+        "rule_id": "FIO47-C",
+        "category": "FIO",
+        "description": "Use valid and secure format strings to prevent undefined behavior, security vulnerabilities, and runtime errors. Avoid passing user-controlled or unvalidated data as format strings in functions like printf or scanf.",
+        "fix": "Use fixed, constant format strings and avoid user input as format specifiers. Validate any dynamic format strings before use."
+    },
+    {
+        "rule_id": "ENV30-C",
+        "category": "ENV",
+        "description": "Do not modify the object referenced by the return value of certain functions such as getenv(), as it may point to an internal static buffer or constant data. Modifying this object can lead to undefined behavior or security vulnerabilities.",
+        "fix": "Copy the returned string to a local buffer before modification to avoid altering the original object."
+    },
+    {
+        "rule_id": "ENV31-C",
+        "category": "ENV",
+        "description": "Do not rely on an environment pointer following an operation that may alter the environment, such as setenv() or putenv(), because these operations can invalidate or modify existing pointers to environment strings.",
+        "fix": "Copy environment variable values into application-controlled buffers immediately after retrieval and avoid using pointers to environment strings that may become invalid."
+    },
+    {
+        "rule_id": "ENV32-C",
+        "category": "ENV",
+        "description": "All exit handlers, such as functions registered with atexit() or signal handlers, must return normally instead of calling exit() or abort(). This ensures proper cleanup and resource release in embedded systems.",
+        "fix": "Ensure exit handlers complete cleanup tasks and return without calling exit() or abort(), allowing normal program flow and resource release."
+    },
+    {
+        "rule_id": "ENV33-C",
+        "category": "ENV",
+        "description": "Do not call the system() function. It executes a command specified in a string by passing it to the host environment's command processor, which can lead to security vulnerabilities such as command injection, uncontrolled resource consumption, and unpredictable behavior, especially in embedded systems where the environment is limited or non-standard.",
+        "fix": "Replace system() calls with direct function calls, use OS-specific APIs, or implement required functionality directly in C to avoid invoking shell commands."
+    },
+    {
+        "rule_id": "ENV34-C",
+        "category": "ENV",
+        "description": "Do not store pointers returned by certain functions such as getenv(), which may return pointers to static or volatile memory that can be overwritten by subsequent calls or external influences.",
+        "fix": "Copy the environment string returned by getenv() into a user-allocated buffer before storing or using it long-term."
+    },
+    {
+        "rule_id": "SIG30-C",
+        "category": "SIG",
+        "description": "Call only asynchronous-safe functions within signal handlers. Signal handlers must avoid calls to functions that are not guaranteed to be reentrant or async-signal-safe, as this can cause deadlocks, data corruption, or undefined behavior.",
+        "fix": "Use only async-signal-safe functions inside signal handlers; communicate with main code via volatile flags or write to a pipe or queue for deferred processing."
+    },
+    {
+        "rule_id": "SIG31-C",
+        "category": "SIG",
+        "description": "Do not access or modify shared objects in signal handlers, as signal handlers can interrupt the main program flow at unpredictable points, leading to data races or inconsistent state if shared objects are accessed without synchronization.",
+        "fix": "Use atomic operations or set a flag of type volatile sig_atomic_t in the signal handler and handle the shared object outside the handler to ensure safe access."
+    },
+    {
+        "rule_id": "SIG34-C",
+        "category": "SIG",
+        "description": "Do not call signal() from within interruptible signal handlers as it can lead to undefined behavior and signal handling inconsistencies. Instead, use async-signal-safe functions to manage signal behavior inside handlers.",
+        "fix": "Avoid invoking signal() inside signal handlers. Configure signal handlers once during initialization, and rely on flags or volatile variables to communicate between the handler and main code."
+    },
+    {
+        "rule_id": "SIG35-C",
+        "category": "SIG",
+        "description": "Do not return from a computational exception signal handler as it leads to undefined behavior; such handlers should perform appropriate recovery or system reset actions instead of returning control to the point of exception.",
+        "fix": "In the exception handler, avoid returning; instead, implement a safe system reset or enter a fail-safe infinite loop to prevent undefined behavior."
+    },
+    {
+        "rule_id": "ERR30-C",
+        "category": "ERR",
+        "description": "Set errno to zero before calling a library function known to set errno, to reliably check for errors after the call.",
+        "fix": "errno = 0; /* clear errno */\nresult = library_function(args);\nif (errno != 0) {\n    /* handle error */\n}"
+    },
+    {
+        "rule_id": "ERR32-C",
+        "category": "ERR",
+        "description": "Do not rely on the value of errno unless it has been set by a library function after an error has occurred. errno is indeterminate at program start and may hold stale or unrelated values if not explicitly set by a failing function call.",
+        "fix": "Initialize errno to 0 before a function call, then check errno only if the function indicates an error (e.g., returns a failure code). Avoid using errno without verifying the related function's return value."
+    },
+    {
+        "rule_id": "ERR33-C",
+        "category": "ERR",
+        "description": "Detect and properly handle error indications returned by standard library functions to avoid undefined behavior or security vulnerabilities caused by ignoring errors.",
+        "fix": "Check return values of standard library functions, handle errors immediately by implementing recovery, cleanup, or safe fallback procedures suitable for STM32 embedded environments."
+    },
+    {
+        "rule_id": "CON30-C",
+        "category": "CON",
+        "description": "Ensure that thread-specific storage (TSS) is properly cleaned up when a thread terminates to prevent resource leaks and undefined behavior. This includes releasing any dynamically allocated memory and properly deleting thread-specific keys.",
+        "fix": "Call the TSS destructor function and delete thread-specific keys using pthread_key_delete or equivalent API before thread exit; ensure any allocated resources tied to TSS are freed."
+    },
+    {
+        "rule_id": "CON31-C",
+        "category": "CON",
+        "description": "Do not destroy a mutex while it is locked. Destroying a locked mutex leads to undefined behavior, resource leaks, or deadlocks. Always ensure the mutex is unlocked before destroying it.",
+        "fix": "Before calling mutex destroy, call mutex unlock and verify that the mutex is not locked to safely release system resources."
+    },
+    {
+        "rule_id": "CON32-C",
+        "category": "CON",
+        "description": "Prevent data races when accessing bit-fields from multiple threads. Bit-fields in C are not guaranteed to be accessed atomically, which can result in unpredictable behavior in concurrent environments. To ensure thread safety, concurrent access to bit-fields must be properly synchronized or avoided.",
+        "fix": "Protect all accesses to shared bit-fields with mutexes or disable interrupts during access to ensure atomicity."
+    },
+    {
+        "rule_id": "CON33-C",
+        "category": "CON",
+        "description": "Avoid race conditions when using library functions by ensuring that shared resources are accessed in a thread-safe manner. Library functions are not always reentrant or thread-safe, so protect calls to such functions with appropriate synchronization mechanisms to prevent concurrent access that can lead to inconsistent or corrupted data.",
+        "fix": "Use mutexes or disable interrupts around library function calls that access shared resources to ensure exclusive access, especially in embedded or RTOS-based STM32 applications."
+    },
+    {
+        "rule_id": "CON34-C",
+        "category": "CON",
+        "description": "Declare objects shared between threads with appropriate storage durations to ensure they remain valid and accessible throughout the concurrent execution periods. Use static or global storage for shared objects to avoid undefined behavior caused by premature deallocation or invalid references.",
+        "fix": "Declare shared objects with static or global storage duration to guarantee they persist for the lifetime of all threads accessing them."
+    },
+    {
+        "rule_id": "CON35-C",
+        "category": "CON",
+        "description": "Avoid deadlock by acquiring multiple locks in a consistent, predefined global order across all threads to prevent circular wait conditions.",
+        "fix": "Define a strict locking order for all mutexes and always acquire them in that order; release locks in reverse order to avoid deadlocks."
+    },
+    {
+        "rule_id": "CON36-C",
+        "category": "CON",
+        "description": "Functions that can spuriously wake up (such as pthread_cond_wait or similar blocking calls) must be wrapped in a loop to recheck the condition predicate after each wakeup, preventing incorrect behavior due to spurious wakeups.",
+        "fix": "Encapsulate the wait function inside a while loop that rechecks the condition predicate before proceeding, ensuring the condition is truly met before continuing execution."
+    },
+    {
+        "rule_id": "CON37-C",
+        "category": "CON",
+        "description": "Do not call signal() in a multithreaded program because signal handlers and signal() calls are not thread-safe and may lead to undefined behavior. Use timer-based interrupts or dedicated thread-safe event handling mechanisms instead.",
+        "fix": "Avoid using signal() in multithreaded code; implement hardware interrupts or RTOS-native event flags or message queues to handle asynchronous events safely."
+    },
+    {
+        "rule_id": "CON38-C",
+        "category": "CON",
+        "description": "Ensure thread safety and prevent deadlocks or race conditions when using condition variables by always holding the associated mutex lock before calling wait, signal, or broadcast operations, and properly handling spurious wakeups with a predicate check inside a loop.",
+        "fix": "Always lock the mutex before calling pthread_cond_wait(), and use a while loop to verify the condition predicate after waking up to avoid race conditions and maintain thread safety."
+    },
+    {
+        "rule_id": "CON39-C",
+        "category": "CON",
+        "description": "Do not join or detach a thread that was previously joined or detached, as this causes undefined behavior and may lead to resource leaks or program crashes. Each thread must be joined or detached exactly once.",
+        "fix": "Maintain a status flag for each thread to ensure join or detach is called only once; avoid repeated join/detach calls by checking this flag before invoking pthread_join or pthread_detach."
+    },
+    {
+        "rule_id": "CON40-C",
+        "category": "CON",
+        "description": "Do not refer to an atomic variable more than once within a single expression, as this may result in undefined or unexpected behavior due to potential concurrent modifications between references.",
+        "fix": "Read the atomic variable value once into a local variable, then use that local copy throughout the expression."
+    },
+    {
+        "rule_id": "CON41-C",
+        "category": "CON",
+        "description": "Wrap functions that can fail spuriously in a loop to retry the operation until it succeeds or a non-recoverable error occurs. This avoids premature failure handling due to transient errors such as interrupts or resource contention.",
+        "fix": "Use a do-while or for loop to retry the function call until it returns success or an error other than the transient failure code. For example, retry syscalls that return EINTR."
+    },
+    {
+        "rule_id": "MSC30-C",
+        "category": "MSC",
+        "description": "Do not use the rand() function for generating pseudorandom numbers as it often produces low-quality randomness, has implementation-defined behavior, and may be unsuitable for security-sensitive or high-quality random number requirements.",
+        "fix": "Use hardware random number generators (e.g., STM32 RNG peripheral) or implement a well-tested cryptographic PRNG instead of rand() for better randomness and predictability."
+    },
+    {
+        "rule_id": "MSC32-C",
+        "category": "MSC",
+        "description": "Properly seed pseudorandom number generators (PRNGs) using sources of sufficient entropy before generating random values to ensure unpredictable sequences and prevent security vulnerabilities arising from predictable pseudorandom numbers.",
+        "fix": "Use a high-entropy seed such as a hardware RNG, unique device ID, or timer-based value to initialize the PRNG before generating random numbers, e.g., srand((unsigned int)HAL_GetTick()); for STM32."
+    },
+    {
+        "rule_id": "MSC33-C",
+        "category": "MSC",
+        "description": "Do not pass invalid or uninitialized data to the asctime() function. The input to asctime() must be a valid pointer to a struct tm object representing a valid calendar time.",
+        "fix": "Ensure the struct tm pointer passed to asctime() is properly initialized and points to valid time data before calling the function."
+    },
+    {
+        "rule_id": "MSC37-C",
+        "category": "MSC",
+        "description": "Ensure that control never reaches the end of a non-void function without an explicit return statement, to prevent undefined behavior and ensure deterministic function outcomes.",
+        "fix": "Add an explicit return statement with an appropriate value before the end of all non-void functions."
+    },
+    {
+        "rule_id": "MSC38-C",
+        "category": "MSC",
+        "description": "Do not treat a predefined identifier as an object if it might only be defined as a macro or a compilerIntrinsic, to avoid undefined behavior or conflicts.",
+        "fix": "Avoid declaring variables or objects with names matching predefined identifiers; use distinct names or enclosed preprocessing directives to differentiate."
+    },
+    {
+        "rule_id": "MSC39-C",
+        "category": "MSC",
+        "description": "Do not call va_arg() on a va_list that has an indeterminate value, as this leads to undefined behavior. Ensure va_list variables are properly initialized with va_start() before use, and properly ended with va_end(). Avoid using uninitialized or already ended va_list objects.",
+        "fix": "Always initialize va_list with va_start() before calling va_arg(), and call va_end() after done; avoid using uninitialized or reused va_list variables without reinitialization."
+    },
+    {
+        "rule_id": "MSC40-C",
+        "category": "MSC",
+        "description": "Do not violate constraints imposed by the language or the implementation, such as accessing memory out of bounds, using uninitialized variables, or exceeding hardware limitations. Such violations can lead to undefined behavior, system crashes, or security vulnerabilities.",
+        "fix": "Validate all inputs, initialize variables before use, and enforce memory boundaries using static or dynamic checks appropriate for embedded environments."
+    }
+]

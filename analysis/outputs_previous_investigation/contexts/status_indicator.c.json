@@ -1,0 +1,13 @@
+{
+    "owned_functions": [
+        "StatusIndicator_Init",
+        "StatusIndicator_Update",
+        "StatusIndicator_SetPowerLED"
+    ],
+    "called_functions": [],
+    "peripherals": [],
+    "shared_states": [
+        "GPIO_InitStruct"
+    ],
+    "protected_regions": []
+}

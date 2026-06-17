@@ -1,0 +1,50 @@
+{
+    "violations":
+    [
+        {
+            "rule_id": "CON33-C",
+            "severity": "High",
+            "confidence": "High",
+            "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+            "line": 44,
+            "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+            "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+        },
+        {
+            "rule_id": "CON33-C",
+            "severity": "High",
+            "confidence": "High",
+            "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+            "line": 59,
+            "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+            "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+        },
+        {
+            "rule_id": "CON33-C",
+            "severity": "High",
+            "confidence": "High",
+            "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+            "line": 78,
+            "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+            "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+        },
+        {
+            "rule_id": "CON33-C",
+            "severity": "High",
+            "confidence": "High",
+            "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+            "line": 95,
+            "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_SET);",
+            "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+        },
+        {
+            "rule_id": "CON33-C",
+            "severity": "High",
+            "confidence": "High",
+            "issue": "Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.",
+            "line": 112,
+            "snippet": "HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);",
+            "recommendation": "Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources."
+        }
+    ]
+}

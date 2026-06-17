@@ -1,27 +1,33 @@
 # Virtual Environment
 venv/
 
-# Python Cache
+# Python
 __pycache__/
 *.pyc
 
-# Generated Outputs
+# Environment Variables
+.env
+
+# Outputs
 outputs/
 analysis/outputs/
 remediation/outputs/
+previous_outputs_investigation/
 
-# Temporary Files
-*.log
-
-# Secrets
-.env
-
-# Duplicate Projects
+# HVAC Projects
+HVAC_Project/
 HVAC_Project_Copy/
+HVAC_Project_Vulnerable/
+
+# STM32 Build Artifacts
+Debug/
+Release/
+*.o
+*.d
+*.elf
+*.map
+*.su
+*.cyclo
 
 # VS Code
 .vscode/
-
-# OS Files
-.DS_Store
-Thumbs.db

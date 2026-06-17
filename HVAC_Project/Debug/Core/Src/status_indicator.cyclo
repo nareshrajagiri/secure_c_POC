@@ -1,3 +1,0 @@
-../Core/Src/status_indicator.c:16:7:StatusIndicator_Init	2
-../Core/Src/status_indicator.c:30:7:StatusIndicator_Update	5
-../Core/Src/status_indicator.c:52:7:StatusIndicator_SetPowerLED	2

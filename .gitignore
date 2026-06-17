@@ -8,7 +8,9 @@ __pycache__/
 # Environment Variables
 .env
 
+
 # Outputs
+remediation/outputs_backup
 outputs/
 analysis/outputs/
 remediation/outputs/

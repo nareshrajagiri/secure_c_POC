@@ -8,12 +8,13 @@ def get_analysis_reports():
 
     reports_dir = (
         PROJECT_ROOT /
-        "analysis" /
         "outputs" /
         "file_reports"
     )
 
-    return list(reports_dir.glob("*.json"))
+    return list(
+        reports_dir.glob("*.json")
+    )
 
 
 def load_file_report(report_path):
@@ -22,20 +23,12 @@ def load_file_report(report_path):
         return json.load(f)
 
 
-def resolve_source_path(relative_path):
-
-    relative_path = (
-        relative_path
-        .replace("\\", "/")
-        .replace("../", "")
-    )
-
-    return PROJECT_ROOT / relative_path
-
-
 def read_source_file(relative_path):
 
-    source_path = resolve_source_path(relative_path)
+    source_path = (
+        PROJECT_ROOT /
+        relative_path.replace("\\", "/")
+    )
 
     with open(source_path, "r", encoding="utf-8") as f:
         return f.read()

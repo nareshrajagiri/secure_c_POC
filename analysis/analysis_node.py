@@ -267,17 +267,11 @@ def run_analysis(
     output_dirs = [
         "outputs/file_reports"
     ]
-
     for directory in output_dirs:
-
-        if Path(directory).exists():
-
-            shutil.rmtree(directory)
-
-        Path(directory).mkdir(
-            parents=True,
-            exist_ok=True
-        )
+            Path(directory).mkdir(
+                parents=True,
+                exist_ok=True
+            )
 
     # ----------------------------------
     # Prepare Analysis Inputs

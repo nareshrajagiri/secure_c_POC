@@ -1,3 +1,4 @@
+from email import message
 from pathlib import Path
 import json
 import re
@@ -253,8 +254,13 @@ def run_analysis(
     context_path,
     api_key,
     model_name,
-    temperature
+    temperature,
+    status_callback=None
 ):
+    def update(message):
+        if status_callback:
+            status_callback(message)
+        print(message)
     
     # ----------------------------------
     # Clean Previous Outputs
@@ -268,10 +274,16 @@ def run_analysis(
         "outputs/file_reports"
     ]
     for directory in output_dirs:
-            Path(directory).mkdir(
-                parents=True,
-                exist_ok=True
-            )
+
+        if Path(directory).exists():
+
+            for file in Path(directory).glob("*.json"):
+                file.unlink()
+
+        Path(directory).mkdir(
+            parents=True,
+            exist_ok=True
+        )
 
     # ----------------------------------
     # Prepare Analysis Inputs
@@ -284,8 +296,8 @@ def run_analysis(
         context_path
     )
 
-    for f in analysis_inputs:
-        print(f["file"])
+    """for f in analysis_inputs:
+        print(f["file"])"""
     
     all_file_reports = []
 
@@ -295,9 +307,8 @@ def run_analysis(
 
     for current_file in analysis_inputs:
 
-        print(
-            f"\nAnalyzing: "
-            f"{current_file['file']}"
+        update(
+            f"🔍 Analyzing {current_file['file']}"
         )
 
         # ------------------------------
@@ -322,7 +333,8 @@ def run_analysis(
         # ------------------------------
 
         retrieved_rules = retrieve_rules(
-            current_file["code"]
+            current_file["code"],
+            api_key
         )
 
         rules_output = []
@@ -373,12 +385,11 @@ def run_analysis(
                 analysis_result
             )
 
-        except Exception:
+        except Exception as e:
 
             parsed_result = {
                 "violations": [],
-                "error":
-                "Invalid JSON returned by LLM"
+                "error": str(e)
             }
 
         # ------------------------------
@@ -483,14 +494,12 @@ def run_analysis(
                 indent=4
             )
 
-    print(
-    "\nProject Analysis Completed Successfully\n"
-)
-
-    print("\nGenerated Files:")
-
-    print("outputs/analysis_summary.json")
-    print("outputs/file_reports/")
+    update(
+    "✓ Analysis Complete"
+    )
+    update("Analysis Outputs Generated")
+    update("✓ outputs/analysis_summary.json")
+    update("✓ outputs/file_reports/")
 
     return summary
     

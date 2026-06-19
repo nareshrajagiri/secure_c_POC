@@ -1,6 +1,7 @@
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from pathlib import Path
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 VECTOR_STORE_PATH = (
@@ -10,22 +11,30 @@ VECTOR_STORE_PATH = (
 )
 
 
-embeddings = OpenAIEmbeddings(
-    model="text-embedding-3-small"
-)
+def get_vector_store(api_key):
 
-vector_store = FAISS.load_local(
-    str(VECTOR_STORE_PATH),
-    embeddings,
-    allow_dangerous_deserialization=True
-)
-
-
-def retrieve_rules(code_text, k=15):
-
-    results = vector_store.similarity_search(
-        code_text,
-        k=k
+    embeddings = OpenAIEmbeddings(
+        model="text-embedding-3-small",
+        api_key=api_key
     )
 
-    return results
+    return FAISS.load_local(
+        str(VECTOR_STORE_PATH),
+        embeddings,
+        allow_dangerous_deserialization=True
+    )
+
+
+def retrieve_rules(
+    code,
+    api_key
+):
+
+    vector_store = get_vector_store(
+        api_key
+    )
+
+    return vector_store.similarity_search(
+        code,
+        k=10
+    )

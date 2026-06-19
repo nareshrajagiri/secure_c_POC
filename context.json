@@ -1,17 +1,17 @@
 {
     "dependency_graph": {
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\command_handler.h": [],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\main.h": [
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Inc\\command_handler.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Inc\\main.h": [
             "stm32f4xx_hal.h"
         ],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\motor_controller.h": [],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\position_sensing.h": [],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Inc\\status_indicator.h": [],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\command_handler.c": [
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Inc\\motor_controller.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Inc\\position_sensing.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Inc\\status_indicator.h": [],
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Src\\command_handler.c": [
             "command_handler.h",
             "stm32f4xx_hal.h"
         ],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\main.c": [
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Src\\main.c": [
             "main.h",
             "command_handler.h",
             "position_sensing.h",
@@ -19,16 +19,16 @@
             "status_indicator.h",
             "stm32f4xx_hal.h"
         ],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\motor_controller.c": [
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Src\\motor_controller.c": [
             "motor_controller.h",
             "position_sensing.h",
             "stm32f4xx_hal.h"
         ],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\position_sensing.c": [
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Src\\position_sensing.c": [
             "position_sensing.h",
             "stm32f4xx_hal.h"
         ],
-        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project\\Core\\Src\\status_indicator.c": [
+        "C:\\Users\\nares\\OneDrive\\Desktop\\Secure_C_POC\\HVAC_Project_Vulnerable\\Core\\Src\\status_indicator.c": [
             "status_indicator.h",
             "stm32f4xx_hal.h"
         ]

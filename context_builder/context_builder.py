@@ -82,9 +82,14 @@ def discover_application_files(project_root):
                 )
 
     return sorted(app_files)
+
+
     
-    
-def build_context(project_root):
+def build_context(project_root , status_callback=None):
+    def update(message):
+        if status_callback:
+            status_callback(message)
+        print(message)
 
     files = discover_application_files(
         project_root
@@ -106,28 +111,20 @@ def build_context(project_root):
 
     try:
 
-        print(
-            "Using Clang Context Builder...",
-            flush=True
+        update(
+            "Using Clang Context Builder..."
         )
 
-        print(
-            "\n[1/7] Building Dependency Graph...",
-            flush=True
+        update(
+         "[1/7] Building Dependency Graph..."
         )
 
         dependency_graph = build_dependency_graph(
             files
         )
 
-        print(
-            "      DONE",
-            flush=True
-        )
-
-        print(
-            "\n[2/7] Building Symbol Ownership...",
-            flush=True
+        update(
+            "\n[2/7] Building Symbol Ownership..."
         )
 
         symbol_ownership = (
@@ -138,14 +135,8 @@ def build_context(project_root):
             )
         )
 
-        print(
-            "      DONE",
-            flush=True
-        )
-
-        print(
-            "\n[3/7] Building Interface Contracts...",
-            flush=True
+        update(
+            "\n[3/7] Building Interface Contracts..."
         )
 
         interface_contracts = (
@@ -156,14 +147,8 @@ def build_context(project_root):
             )
         )
 
-        print(
-            "      DONE",
-            flush=True
-        )
-
-        print(
-            "\n[4/7] Building Call Graph...",
-            flush=True
+        update(
+            "\n[4/7] Building Call Graph..."
         )
 
         call_graph = (
@@ -174,14 +159,8 @@ def build_context(project_root):
             )
         )
 
-        print(
-            "      DONE",
-            flush=True
-        )
-
-        print(
-            "\n[5/7] Building Shared State Map...",
-            flush=True
+        update(
+            "\n[5/7] Building Shared State Map..."
         )
 
         shared_state_map = (
@@ -192,14 +171,8 @@ def build_context(project_root):
             )
         )
 
-        print(
-            "      DONE",
-            flush=True
-        )
-
-        print(
-            "\n[6/7] Building Peripheral Ownership...",
-            flush=True
+        update(
+            "\n[6/7] Building Peripheral Ownership..."
         )
 
         peripheral_ownership = (
@@ -209,15 +182,8 @@ def build_context(project_root):
                 defines
             )
         )
-
-        print(
-            "      DONE",
-            flush=True
-        )
-
-        print(
-            "\n[7/7] Building Protected Regions...",
-            flush=True
+        update(
+            "\n[7/7] Building Protected Regions..."
         )
 
         protected_regions = (
@@ -225,22 +191,22 @@ def build_context(project_root):
                 files
             )
         )
-
-        print(
-            "      DONE\n",
-            flush=True
-        )
+        update("✓ Dependency Graph Complete")
+        update("✓ Symbol Ownership Complete")
+        update("✓ Interface Contracts Complete")
+        update("✓ Call Graph Complete")
+        update("✓ Shared State Map Complete")
+        update("✓ Peripheral Ownership Complete")
+        update("✓ Protected Regions Complete")
 
     except Exception as e:
 
-        print(
-            f"Clang failed: {e}",
-            flush=True
+        update(
+            f"Clang failed: {e}"
         )
 
-        print(
-            "Falling back to regex...",
-            flush=True
+        update(
+            "Falling back to regex..."
         )
 
         dependency_graph = (

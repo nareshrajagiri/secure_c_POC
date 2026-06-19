@@ -1,5 +1,19 @@
 import streamlit as st
-from pipeline_runner import run_pipeline
+import json
+
+from pathlib import Path
+
+from context_builder.context_builder import (
+    build_context
+)
+
+from analysis.analysis_node import (
+    run_analysis
+)
+
+# =====================================
+# PAGE CONFIG
+# =====================================
 
 st.set_page_config(
     page_title="Secure C Compliance Analyzer",
@@ -18,6 +32,7 @@ with st.sidebar:
         "OpenAI API Key",
         type="password"
     )
+    api_key = api_key.strip()
 
     model_name = st.selectbox(
         "Model",
@@ -45,7 +60,7 @@ with st.sidebar:
     )
 
     run_button = st.button(
-        "Run Complete Pipeline",
+        "Run Analysis",
         use_container_width=True
     )
 
@@ -59,12 +74,14 @@ st.title(
 
 st.markdown(
     """
-    Context Builder → Analysis → Remediation
+    Context Builder → Analysis
     """
 )
 
+workflow_status = st.empty()
+
 # =====================================
-# RUN PIPELINE
+# RUN
 # =====================================
 
 if run_button:
@@ -83,164 +100,232 @@ if run_button:
 
     else:
 
-        status = st.empty()
+        status_messages = []
 
-        progress_bar = st.progress(0)
+        def update_status(message):
 
-        status.info(
-            "Starting Pipeline..."
-        )
+            status_messages.append(message)
+
+            workflow_status.text(
+                "\n".join(status_messages)
+            )
 
         try:
 
-            progress_bar.progress(10)
+            # =====================================
+            # CONTEXT BUILDER
+            # =====================================
 
-            results = run_pipeline(
-                project_path,
-                model_name,
-                temperature,
-                api_key
+            update_status(
+                "Starting Context Builder..."
             )
 
-            st.write("Pipeline Results:")
-            st.json(results)
+            context = build_context(
+                project_path,
+                status_callback=update_status
+            )
 
-            if "error" in results:
+            with open(
+                "context.json",
+                "w"
+            ) as f:
 
-                st.error(
-                    results["error"]
+                json.dump(
+                    context,
+                    f,
+                    indent=4
                 )
 
-                st.code(
-                    results["traceback"]
+            st.success(
+                "Context Generated Successfully"
+            )
+
+            # =====================================
+            # CONTEXT SUMMARY
+            # =====================================
+
+            st.header(
+                "Context Summary"
+            )
+
+            c1, c2, c3, c4 = st.columns(4)
+
+            c1.metric(
+                "Dependency Files",
+                len(
+                    context["dependency_graph"]
                 )
+            )
 
-            else:
-
-                progress_bar.progress(100)
-
-                status.success(
-                    "Pipeline Completed Successfully"
+            c2.metric(
+                "Functions",
+                len(
+                    context["symbol_ownership"]["functions"]
                 )
+            )
 
-                # ========================
-                # CONTEXT SUMMARY
-                # ========================
-
-                st.header(
-                    "Context Summary"
+            c3.metric(
+                "Contracts",
+                len(
+                    context["interface_contracts"]
                 )
+            )
 
-                context = results[
-                    "context_summary"
+            c4.metric(
+                "Call Graph",
+                len(
+                    context["call_graph"]
+                )
+            )
+
+            # =====================================
+            # ANALYSIS
+            # =====================================
+
+            update_status(
+                "Starting Analysis..."
+            )
+
+            analysis_summary = run_analysis(
+                project_path,
+                "context.json",
+                api_key,
+                model_name,
+                temperature,
+                status_callback=update_status
+            )
+
+            st.success(
+                "Analysis Completed Successfully"
+            )
+
+            # =====================================
+            # ANALYSIS SUMMARY
+            # =====================================
+
+            st.header(
+                "Analysis Summary"
+            )
+
+            a1, a2, a3, a4, a5 = st.columns(5)
+
+            a1.metric(
+                "Files",
+                analysis_summary[
+                    "files_analyzed"
                 ]
+            )
 
-                c1, c2, c3, c4 = st.columns(4)
-
-                c1.metric(
-                    "Dependency Files",
-                    context[
-                        "dependency_files"
-                    ]
-                )
-
-                c2.metric(
-                    "Functions",
-                    context[
-                        "functions"
-                    ]
-                )
-
-                c3.metric(
-                    "Contracts",
-                    context[
-                        "contracts"
-                    ]
-                )
-
-                c4.metric(
-                    "Call Graph",
-                    context[
-                        "call_graph"
-                    ]
-                )
-
-                # ========================
-                # ANALYSIS SUMMARY
-                # ========================
-
-                st.header(
-                    "Analysis Summary"
-                )
-
-                analysis = results[
-                    "analysis"
+            a2.metric(
+                "Violations",
+                analysis_summary[
+                    "total_violations"
                 ]
+            )
 
-                a1, a2, a3, a4, a5 = st.columns(5)
-
-                a1.metric(
-                    "Files",
-                    analysis[
-                        "files_analyzed"
-                    ]
-                )
-
-                a2.metric(
-                    "Violations",
-                    analysis[
-                        "total_violations"
-                    ]
-                )
-
-                a3.metric(
-                    "High",
-                    analysis["high"]
-                )
-
-                a4.metric(
-                    "Medium",
-                    analysis["medium"]
-                )
-
-                a5.metric(
-                    "Low",
-                    analysis["low"]
-                )
-
-                # ========================
-                # REMEDIATION SUMMARY
-                # ========================
-
-                st.header(
-                    "Remediation Summary"
-                )
-
-                remediation = results[
-                    "remediation"
+            a3.metric(
+                "High",
+                analysis_summary[
+                    "high"
                 ]
+            )
 
-                r1, r2, r3 = st.columns(3)
+            a4.metric(
+                "Medium",
+                analysis_summary[
+                    "medium"
+                ]
+            )
 
-                r1.metric(
-                    "Reports Found",
-                    remediation[
-                        "reports_found"
-                    ]
+            a5.metric(
+                "Low",
+                analysis_summary[
+                    "low"
+                ]
+            )
+
+            # =====================================
+            # VIOLATION DETAILS
+            # =====================================
+
+            st.header(
+                "Violation Details"
+            )
+
+            report_folder = Path(
+                "outputs/file_reports"
+            )
+
+            report_files = sorted(
+                report_folder.glob("*.json")
+            )
+
+            violations_found = False
+
+            for report_file in report_files:
+
+                with open(
+                    report_file,
+                    "r",
+                    encoding="utf-8"
+                ) as f:
+
+                    report = json.load(f)
+
+                violations = report.get(
+                    "violations",
+                    []
                 )
 
-                r2.metric(
-                    "Files Remediated",
-                    remediation[
-                        "files_remediated"
-                    ]
-                )
+                if not violations:
+                    continue
 
-                r3.metric(
-                    "Files Skipped",
-                    remediation[
-                        "files_skipped"
-                    ]
+                violations_found = True
+
+                with st.expander(
+                    f"{report['file']} ({len(violations)} violations)"
+                ):
+
+                    for i, violation in enumerate(
+                        violations,
+                        start=1
+                    ):
+
+                        st.markdown(
+                            f"### Violation {i}"
+                        )
+
+                        st.write(
+                            f"**Rule ID:** "
+                            f"{violation.get('rule_id','')}"
+                        )
+
+                        st.write(
+                            f"**Severity:** "
+                            f"{violation.get('severity','')}"
+                        )
+
+                        st.write(
+                            f"**Line:** "
+                            f"{violation.get('line','')}"
+                        )
+
+                        st.write(
+                            f"**Issue:** "
+                            f"{violation.get('issue','')}"
+                        )
+
+                        st.write(
+                            f"**Recommendation:** "
+                            f"{violation.get('recommendation','')}"
+                        )
+
+                        st.divider()
+
+            if not violations_found:
+
+                st.success(
+                    "No violations found."
                 )
 
         except Exception as e:

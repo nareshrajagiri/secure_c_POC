@@ -8,13 +8,10 @@ __pycache__/
 # Environment Variables
 .env
 
+compiler
 
 # Outputs
-remediation/outputs_backup
-outputs/
-analysis/outputs/
-remediation/outputs/
-previous_outputs_investigation/
+
 
 # HVAC Projects
 HVAC_Project/
@@ -33,3 +30,7 @@ Release/
 
 # VS Code
 .vscode/
+
+
+
+test_apikey.py

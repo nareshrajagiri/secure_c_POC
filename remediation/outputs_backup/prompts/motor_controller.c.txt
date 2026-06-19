@@ -1,0 +1,306 @@
+
+You are an Embedded Software Security Expert.
+
+TASK:
+Fix only the listed Secure C violations.
+
+OBJECTIVE:
+
+Remediate all listed Secure C violations while preserving
+the existing STM32 application behavior.
+
+IMPORTANT REMEDIATION CONSTRAINTS
+
+- Modify only code required to fix listed violations.
+- Preserve all STM32 HAL APIs.
+- Preserve all USER CODE regions.
+- Preserve all function signatures.
+- Preserve all global variables.
+- Preserve all macros and defines.
+- Preserve include statements.
+- Preserve all #include statements.
+- Preserve all HAL peripheral handles.
+- Preserve STM32 CubeMX generated code.
+- Preserve existing comments whenever possible.
+- Do not introduce placeholder code.
+- Do not remove functionality.
+- Do not rename functions.
+- Do not rename variables.
+- Do not change interfaces.
+- Ensure resulting code remains compilable.
+- Return ONLY the complete corrected source file.
+- Do not use markdown.
+
+OUTPUT REQUIREMENTS
+- Return ONLY raw C source code.
+- Do not include explanations.
+- Do not include markdown.
+- Do not include code fences.
+- Do not include comments describing your changes.
+- The first line of your response must be valid C code.
+
+
+FILE:
+motor_controller.c
+
+SECURE C RULES:
+- CON33-C
+- DCL40-C
+- MSC40-C
+- MSC37-C
+- ERR33-C
+
+VIOLATIONS:
+
+Violation 1
+
+Rule ID: CON33-C
+Severity: High
+Line: 44
+
+Issue:
+Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.
+
+Snippet:
+HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);
+
+Recommendation:
+Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources.
+
+---------------------------------
+
+
+Violation 2
+
+Rule ID: CON33-C
+Severity: High
+Line: 59
+
+Issue:
+Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.
+
+Snippet:
+HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);
+
+Recommendation:
+Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources.
+
+---------------------------------
+
+
+Violation 3
+
+Rule ID: CON33-C
+Severity: High
+Line: 78
+
+Issue:
+Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.
+
+Snippet:
+HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);
+
+Recommendation:
+Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources.
+
+---------------------------------
+
+
+Violation 4
+
+Rule ID: CON33-C
+Severity: High
+Line: 95
+
+Issue:
+Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.
+
+Snippet:
+HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_SET);
+
+Recommendation:
+Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources.
+
+---------------------------------
+
+
+Violation 5
+
+Rule ID: CON33-C
+Severity: High
+Line: 112
+
+Issue:
+Calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop functions access shared hardware resources without any synchronization, risking race conditions in concurrent or interrupt-driven contexts.
+
+Snippet:
+HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);
+
+Recommendation:
+Protect calls to HAL_GPIO_WritePin and HAL_TIM_PWM_Start/Stop with appropriate synchronization mechanisms such as disabling interrupts or using mutexes to ensure exclusive access to shared hardware resources.
+
+---------------------------------
+
+
+CONTEXT:
+
+FILE CONTEXT
+
+Owned Functions:
+- MotorController_Init
+- MotorController_MoveTo
+- MotorController_Update
+- MotorController_Abort
+- MotorController_GetState
+- MotorController_IsMoving
+- MotorController_GetTarget
+
+Called Functions:
+- PositionSensing_Update
+- MotorController_Abort
+- PositionSensing_GetPosition
+- PositionSensing_IsAtTarget
+
+Shared States:
+- htim3
+- GPIO_InitStruct
+
+Peripherals:
+- TIM : htim3
+
+
+SOURCE CODE START
+
+ 
+ #include "motor_controller.h"
+ #include "position_sensing.h"
+ #include "stm32f4xx_hal.h"
+extern TIM_HandleTypeDef htim3;
+ #define MOTOR_PWM_HANDLE      htim3
+ #define MOTOR_PWM_CHANNEL     TIM_CHANNEL_1    
+ #define MOTOR_GPIO_PORT_DIR   GPIOB
+ #define MOTOR_PIN_DIR_FWD     GPIO_PIN_0
+ #define MOTOR_PIN_DIR_REV     GPIO_PIN_1
+ 
+ //static GPIO_InitTypeDef GPIO_InitStruct;
+ /* Static state */
+ static MotorState_t s_motor_state = MOTOR_STATE_STOPPED;
+ static uint8_t s_target_position = 0U;
+ static uint8_t s_movement_active = 0U;
+ void MotorController_Init(void)
+ {
+     /* Configure IN1 and IN2 as normal output */
+     GPIO_InitTypeDef GPIO_InitStruct = {0};
+     GPIO_InitStruct.Pin = MOTOR_PIN_DIR_FWD | MOTOR_PIN_DIR_REV;
+     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+     GPIO_InitStruct.Pull = GPIO_NOPULL;
+     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+     HAL_GPIO_Init(MOTOR_GPIO_PORT_DIR, &GPIO_InitStruct);
+
+     /* SWE-REQ-009: Set outputs safe */
+     s_motor_state = MOTOR_STATE_STOPPED;
+     s_target_position = 0U;
+     s_movement_active = 0U;
+
+     /* Ensure PWM/GPIOs are safe */
+     HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);
+     HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_REV, GPIO_PIN_RESET);
+
+     /* Start PWM channel for motor */
+     HAL_TIM_PWM_Start(&MOTOR_PWM_HANDLE, MOTOR_PWM_CHANNEL);
+ }
+
+ void MotorController_MoveTo(uint8_t target_position)
+ {
+     /* SWE-REQ-009: Initiate movement to target position */
+     s_target_position = target_position;
+     uint8_t current_position = 0;
+     if(PositionSensing_GetPosition(&current_position))
+     {
+         if(current_position == s_target_position)
+         {
+             /* At target already, no move */
+             MotorController_Abort();
+             return;
+         }
+         /* Decide direction */
+         if(current_position < s_target_position)
+         {
+             
+             HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);
+             HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_REV, GPIO_PIN_SET);
+             s_motor_state = MOTOR_STATE_MOVING_FWD;
+         }
+         else
+         {
+             HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_SET);
+             HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_REV, GPIO_PIN_RESET);
+             s_motor_state = MOTOR_STATE_MOVING_REV;
+         }
+         s_movement_active = 1U;
+         HAL_TIM_PWM_Start(&MOTOR_PWM_HANDLE, MOTOR_PWM_CHANNEL);
+     }
+     else
+     {
+         /* Invalid position, abort */
+         MotorController_Abort();
+     }
+ }
+ void MotorController_Update(void)
+ {
+     /* SWE-REQ-010: Stop at target or if invalid */
+     if(s_movement_active)
+     {
+        PositionSensing_Update();
+        uint8_t current_position = 0U;
+        if(PositionSensing_GetPosition(&current_position))
+         {
+             
+             if (PositionSensing_IsAtTarget(s_target_position))
+		{
+    			MotorController_Abort();
+		}
+
+         }
+         else
+         {
+             /* Out-of-range, stop motor */
+             MotorController_Abort();
+         }
+     }
+ }
+ void MotorController_Abort(void)
+ {
+     s_motor_state = MOTOR_STATE_STOPPED;
+     s_movement_active = 0U;
+
+     HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_FWD, GPIO_PIN_RESET);
+     HAL_GPIO_WritePin(MOTOR_GPIO_PORT_DIR, MOTOR_PIN_DIR_REV, GPIO_PIN_RESET);
+     HAL_TIM_PWM_Stop(&MOTOR_PWM_HANDLE, MOTOR_PWM_CHANNEL);
+ }
+
+ MotorState_t MotorController_GetState(void)
+ {
+     return s_motor_state;
+ }
+
+ uint8_t MotorController_IsMoving(void)
+ {
+     return s_movement_active;
+ }
+
+ uint8_t MotorController_GetTarget(uint8_t *target)
+ {
+     if ((s_movement_active == 0U) &&
+         (s_target_position < 6U) &&
+         (target != NULL))
+     {
+         *target = s_target_position;
+         return 1U;
+     }
+     return 0U;
+ }
+
+
+
+SOURCE CODE END

@@ -1,0 +1,14 @@
+{
+    "status": "failed",
+    "build_success": false,
+    "return_code": 2,
+    "error_count": 1,
+    "errors": [
+        {
+            "file": "stm32f4xx_hal.h",
+            "line": 29,
+            "message": "stm32f4xx_hal_conf.h: No such file or directory"
+        }
+    ],
+    "build_log": "compiler\\outputs\\build.log"
+}

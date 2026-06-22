@@ -328,8 +328,18 @@ if run_button:
                     "No violations found."
                 )
 
+            # REMEDIATION
+
+            run_remediation_button = st.button(
+                "Run Remediation"
+            )
+            
+            
+
         except Exception as e:
 
             st.error(
                 str(e)
             )
+
+            

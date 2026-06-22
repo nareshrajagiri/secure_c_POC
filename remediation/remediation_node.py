@@ -8,13 +8,20 @@ from .report_loader import (
 )
 from .file_utils import save_text
 from pathlib import Path
+import json
 
 
 def run_remediation(
     api_key,
     model_name,
-    temperature
+    temperature,
+    status_callback=None
 ):
+    def update(message):
+        if status_callback:
+            status_callback(message)
+
+        print(message)
 
     # --------------------------------------------------
     # Get All Analysis Reports
@@ -31,8 +38,17 @@ def run_remediation(
         / "outputs"
         / "remediated_files"
     )
+    REPORT_DIR = (
+        Path(__file__).resolve().parent.parent
+        / "outputs"
+        / "remediation_reports"
+    )
 
     OUTPUT_DIR.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+    REPORT_DIR.mkdir(
         parents=True,
         exist_ok=True
     )
@@ -45,7 +61,9 @@ def run_remediation(
 
         report = load_file_report(report_file)
 
-        print(f"\nProcessing: {report['file']}")
+        update(
+            f"🔧 Processing {report['file']}"
+        )
 
         # ----------------------------------------------
         # Skip Files With No Violations
@@ -103,10 +121,44 @@ def run_remediation(
             )
         )
 
+        # ----------------------------------------------
+        # Create Remediation Report
+        # ----------------------------------------------
+
+        remediation_report = {
+            "file": report["file"],
+            "violations_fixed": len(
+                report["violations"]
+            ),
+            "rules": list(
+                {
+                    violation["rule_id"]
+                    for violation in report["violations"]
+                }
+            ),
+            "status": "remediated"
+        }
+        # ----------------------------------------------
+        # Save Remediation Report
+        # ----------------------------------------------
+
+        save_text(
+            json.dumps(
+                remediation_report,
+                indent=4
+            ),
+            str(
+                REPORT_DIR /
+                f"{report['file']}_remediation.json"
+            )
+        )
+
         processed_count += 1
 
-        print("Remediation Completed")
-        print(
+        update(
+            "✓ Remediation Complete"
+        )
+        update(
             f"Remediated file saved: "
             f"{report['file']}"
         )
@@ -132,6 +184,25 @@ def run_remediation(
         f"{skipped_count}"
     )
 
+    remediation_summary = {
+        "reports_found": len(report_files),
+        "files_remediated": processed_count,
+        "files_skipped": skipped_count
+    }
+
+    save_text(
+        json.dumps(
+            remediation_summary,
+            indent=4
+        ),
+        str(
+            Path(__file__).resolve().parent.parent
+            / "outputs"
+            / "remediation_summary.json"
+        )
+    )
+
+
     print("\nAll remediation tasks completed.\n")
 
     return {
@@ -145,58 +216,3 @@ if __name__ == "__main__":
         "Run from pipeline_runner.py"
     )
 
-"""(venv) PS C:\Users\nares\OneDrive\Desktop\Secure_C_POC> python test_remediation_pipeline.py
-
-Found 10 analysis reports.
-
-
-Processing: command_handler.c
-Violations Found: 2
-Remediation Completed
-Remediated file saved: command_handler.c
-
-Processing: command_handler.h
-No violations found. Skipping.
-
-Processing: main.c
-Violations Found: 5
-Remediation Completed
-Remediated file saved: main.c
-
-Processing: main.h
-No violations found. Skipping.
-
-Processing: motor_controller.c
-Violations Found: 2
-Remediation Completed
-Remediated file saved: motor_controller.c
-
-Processing: motor_controller.h
-No violations found. Skipping.
-
-Processing: position_sensing.c
-Violations Found: 2
-Remediation Completed
-Remediated file saved: position_sensing.c
-
-Processing: position_sensing.h
-No violations found. Skipping.
-
-Processing: status_indicator.c
-Violations Found: 4
-Remediation Completed
-Remediated file saved: status_indicator.c
-
-Processing: status_indicator.h
-No violations found. Skipping.
-
-Remediation Summary
-------------------------------
-Reports Found      : 10
-Files Remediated   : 5
-Files Skipped      : 5
-
-All remediation tasks completed.
-
-{'reports_found': 10, 'files_remediated': 5, 'files_skipped': 5}
-(venv) PS C:\Users\nares\OneDrive\Desktop\Secure_C_POC> """

@@ -1,0 +1,55 @@
+"""(venv) PS C:\Users\nares\OneDrive\Desktop\Secure_C_POC> python test_remediation_pipeline.py
+
+Found 10 analysis reports.
+
+
+Processing: command_handler.c
+Violations Found: 2
+Remediation Completed
+Remediated file saved: command_handler.c
+
+Processing: command_handler.h
+No violations found. Skipping.
+
+Processing: main.c
+Violations Found: 5
+Remediation Completed
+Remediated file saved: main.c
+
+Processing: main.h
+No violations found. Skipping.
+
+Processing: motor_controller.c
+Violations Found: 2
+Remediation Completed
+Remediated file saved: motor_controller.c
+
+Processing: motor_controller.h
+No violations found. Skipping.
+
+Processing: position_sensing.c
+Violations Found: 2
+Remediation Completed
+Remediated file saved: position_sensing.c
+
+Processing: position_sensing.h
+No violations found. Skipping.
+
+Processing: status_indicator.c
+Violations Found: 4
+Remediation Completed
+Remediated file saved: status_indicator.c
+
+Processing: status_indicator.h
+No violations found. Skipping.
+
+Remediation Summary
+------------------------------
+Reports Found      : 10
+Files Remediated   : 5
+Files Skipped      : 5
+
+All remediation tasks completed.
+
+{'reports_found': 10, 'files_remediated': 5, 'files_skipped': 5}
+(venv) PS C:\Users\nares\OneDrive\Desktop\Secure_C_POC> """
